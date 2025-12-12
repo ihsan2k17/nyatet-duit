@@ -61,6 +61,22 @@ class UserRepository {
             return Result.error<UserModel>(errorMessage)
         }
     }
+    async UpdateUserOnline(Username?:string, isOnline?: number):Promise<Result<null>> {
+        try {
+            const {data, error} = await supabase.rpc("LK_user",{
+                p_username:Username,
+                p_isonline: isOnline,
+                p_state: 'UPDATEISONLINE'
+            })
+            if(error) {
+                return Result.error(error.message)
+            }
+            return Result.success(data.message)
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Internal Server Error'
+            return Result.error(errorMessage)
+        }
+    }
 }
 
 export default UserRepository;

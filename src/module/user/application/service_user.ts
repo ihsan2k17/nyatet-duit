@@ -3,6 +3,7 @@ import UserRepository from "../infrastructure/repository_user"
 import { UserModel } from "../domain/model_user"
 import { checkPassword } from "@/shared/utils/checkpassword"
 import { hashingPassword } from "@/shared/utils/hashingpassword"
+import { UserDomain } from "../domain/entity_user"
 
 
 export class UserService {
@@ -16,8 +17,20 @@ export class UserService {
         }
         try {
             const user = await this.repo.LoginUser(Username)
-            if(user.status === true) {
+            if(user.status === true && user.data) {
+                //domain entity
+                const entityuser = new UserDomain(
+                    user.data.username,
+                    user.data.name,
+                    user.data.password,
+                    Number(user.data.useractive),
+                    user.data.userlevel,
+                    user.data.email,
+                    Number(user.data.isonline)
+                )
                 await checkPassword(Password ||"123456" , user.data?.password || "")
+                entityuser.login() 
+                await this.repo.UpdateUserOnline(entityuser.username, entityuser.isonline)
                 return Result.success<UserModel>(user.data, "Login Success")
             } return Result.error<UserModel>(user.message)
         } catch (error: unknown) {
@@ -58,18 +71,42 @@ export class UserService {
                 }
                 // REGIS SUKSES LANGSUNG KE LOGIN
                 const data = await this.repo.LoginUser(Username)
-                if(data.status === false) {
-                    return Result.error<UserModel>(data.message)
+                if(data.status === true && data.data){
+                    //domain entity
+                    const entityuser = new UserDomain(
+                        data.data.username,
+                        data.data.name,
+                        data.data.password,
+                        Number(data.data.useractive),
+                        data.data.userlevel,
+                        data.data.email,
+                        Number(data.data.isonline)
+                    )
+                    entityuser.login() 
+                    await this.repo.UpdateUserOnline(entityuser.username, entityuser.isonline)
+                    return Result.success<UserModel>(data.data, "Register Google Success")
                 }
-                return Result.success<UserModel>(data.data, "Register Google Success")
+                return Result.error<UserModel>(data.message)
             }
 
             // Kalo user nya ada langsung lari ke login di repository 
             const data = await this.repo.LoginUser(result.data!.username)
-            if(data.status === false) {
+            if(data.status === true && data.data){
+                    //domain entity
+                    const entityuser = new UserDomain(
+                        data.data.username,
+                        data.data.name,
+                        data.data.password,
+                        Number(data.data.useractive),
+                        data.data.userlevel,
+                        data.data.email,
+                        Number(data.data.isonline)
+                    )
+                    entityuser.login() 
+                    await this.repo.UpdateUserOnline(entityuser.username, entityuser.isonline)
+                    return Result.success<UserModel>(data.data, "Login Google Success")
+                }
                 return Result.error<UserModel>(data.message)
-            }
-            return Result.success<UserModel>(result.data, "Login Google Success")
             
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Login Error Process'
