@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UserService } from "../../application/service_user";
 import UserRepository from "../../infrastructure/repository_user";
+import { RegisterUserusecase } from "../../application/usecase.register_user";
 
 
 export class RegisterController {
-    private service: UserService;
+    private service: RegisterUserusecase;
     constructor() {
         const repo = new UserRepository();
-        this.service = new UserService(repo)
+        this.service = new RegisterUserusecase(repo)
     }
 
     async Register(req:NextRequest) {

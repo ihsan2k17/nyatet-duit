@@ -1,4 +1,4 @@
-export class UserDomain {
+export class EntityUserLogin {
     constructor(
         public username?: string,
         public name?: string,

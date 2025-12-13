@@ -1,23 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UserService } from "../../application/service_user";
 import UserRepository from "../../infrastructure/repository_user";
 import jwt from "jsonwebtoken";
+import { LoginUserusecase } from "../../application/usecase.login_user";
+import { GoogleLoginUserusecase } from "../../application/usecase.googlelogin_user";
 
 const SECRET_KEY = process.env.JWT_SECRET || "secret123";
 const RANDOM_PASSWORD =process.env.NEXT_PUBLIC_GOOGLE_RANDOM_PASSWORD
 export class LoginController {
-    private service: UserService;
+    //private service: UserService;
+    private loginUseCase: LoginUserusecase;
+    private LoginGoogleUseCase: GoogleLoginUserusecase;
 
     constructor() {
         const repo = new UserRepository();
-        this.service = new UserService(repo);
+        //this.service = new UserService(repo);
+        this.loginUseCase = new LoginUserusecase(repo)
+        this.LoginGoogleUseCase = new GoogleLoginUserusecase(repo)
     }
     
     async Login(req: NextRequest) {
         const body = await req.json();
         const { Username, Password } = body;
         try {
-            const result = await this.service.Login(Username, Password);
+            const result = await this.loginUseCase.Login(Username, Password);
             if(result.status === false) {
                 return NextResponse.json({message: result.message}, {status:400})
             }
@@ -65,7 +70,7 @@ export class LoginController {
     async LoginWithGoogle(req: NextRequest) {
         const {username, name, email} = await req.json()
         try {
-            const result = await this.service.CekGoogle(username,RANDOM_PASSWORD,name,email)
+            const result = await this.LoginGoogleUseCase.CekGoogle(username,RANDOM_PASSWORD,name,email)
             if(result.status === false) {
                 return NextResponse.json({message: result.message}, {status:400})
             }

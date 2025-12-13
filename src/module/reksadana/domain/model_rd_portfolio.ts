@@ -1,4 +1,4 @@
-export interface ReksadanaModel {
+export interface RDPortfolioModel {
     id?: number,
     iduser?: number,
     namaportfolio?: string,
@@ -6,7 +6,5 @@ export interface ReksadanaModel {
     totalnav?: number,
     totalunit?: number,
     createby?: string,
-    createdtime?: Date,
-    updateby?: string,
-    updatetime?: Date 
+    updateby?: string
 }

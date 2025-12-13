@@ -1,62 +1,11 @@
-import { Result } from "@/shared/types/result"
-import UserRepository from "../infrastructure/repository_user"
-import { UserModel } from "../domain/model_user"
-import { checkPassword } from "@/shared/utils/checkpassword"
-import { hashingPassword } from "@/shared/utils/hashingpassword"
-import { UserDomain } from "../domain/entity_user"
+import { Result } from "@/shared/types/result";
+import { hashingPassword } from "@/shared/utils/hashingpassword";
+import { UserDomain } from "../domain/entity_user";
+import { UserModel } from "../domain/model_user";
+import UserRepository from "../infrastructure/repository_user";
 
-
-export class UserService {
-    constructor(private repo : UserRepository) {}
-
-    async Login(Username?: string, Password?:string):Promise<Result<UserModel>> {
-        if(Username?.length === 0) {
-            return Result.error("Username is Required")
-        } else if(Password?.length === 0) {
-            return Result.error("Password is Required")
-        }
-        try {
-            const user = await this.repo.LoginUser(Username)
-            if(user.status === true && user.data) {
-                //domain entity
-                const entityuser = new UserDomain(
-                    user.data.username,
-                    user.data.name,
-                    user.data.password,
-                    Number(user.data.useractive),
-                    user.data.userlevel,
-                    user.data.email,
-                    Number(user.data.isonline)
-                )
-                await checkPassword(Password ||"123456" , user.data?.password || "")
-                entityuser.login() 
-                await this.repo.UpdateUserOnline(entityuser.username, entityuser.isonline)
-                return Result.success<UserModel>(user.data, "Login Success")
-            } return Result.error<UserModel>(user.message)
-        } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message:'Login Error Process'
-            return Result.error<UserModel>(errorMessage)
-        }
-    }
-
-    async Register(Username?:string, Password?:string, Name?:string, Email?:string):Promise<Result<UserModel>> {
-        if(Username?.length === 0){
-            return Result.error("Username is Required")
-        } else if (Password?.length === 0) {
-            return Result.error("Password is Required")
-        } 
-        try {
-            const hash = await hashingPassword(Password||"123456")
-            const result = await this.repo.RegisterUser(Username, hash, Name, Email)
-            if(result.status === false) {
-                return Result.error<UserModel>(result.message)
-            }
-            return Result.success<UserModel>(undefined, result.message)
-        } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message:'Register Error Process'
-            return Result.error<UserModel>(errorMessage)
-        }
-    }
+export class GoogleLoginUserusecase {
+    constructor(private repo: UserRepository) {}
 
     async CekGoogle(Username?:string, Password?: string, Name?:string, Email?:string):Promise<Result<UserModel>> {
         try {
