@@ -6,37 +6,32 @@ import { RDPortfolioModel } from "../domain/model_rd_portfolio";
 export class AddPortfolioReksadanaUsecase {
     constructor(private repo: PortfolioRepository) {}
 
-    async execute(entityData: EntityReksadanaPortfolio): Promise<Result<void>> {
-        
+    async execute(model: RDPortfolioModel): Promise<Result<void>> {
         try {
-            const existedNames = await this.repo.ListNameRDPortfolio(entityData.iduser!)
+
+            const entityData = new EntityReksadanaPortfolio (
+                model.iduser!,
+                model.namaportfolio!,
+                model.totaluang!,
+                model.totalnav!,
+                model.totalunit!,
+                model.createby!,
+                model.updateby!
+            );
+
+            const existedNames = await this.repo.ListNameRDPortfolio(entityData.iduser)
             if(existedNames.status === false) {
                 return Result.error(existedNames.message)
             }
-            let nameResult:string[] = []
-            if(existedNames.data?.namaportfolio) {
-                if(Array.isArray(existedNames.data.namaportfolio)) {
-                    nameResult = existedNames.data.namaportfolio
-                } else {
-                    nameResult = [existedNames.data.namaportfolio]
-                }
-            }
-            else {
-                nameResult = []
-            }
-            if(nameResult.includes(entityData.namaportfolio)) {
-                return Result.error("Nama Is Already Exists")
-            }
-            const model: RDPortfolioModel = {
-                iduser: entityData.iduser,
-                namaportfolio: entityData.namaportfolio,
-                totaluang: entityData.totaluang,
-                totalnav: entityData.totalnav,
-                totalunit: entityData.totalunit,
-                createby: entityData.createby,
-                updateby: entityData.updateby
-            };
-            return await this.repo.AddRDPortfolio(model)
+            const nameResult: string[] = (existedNames.data ?? [])
+                .map(e => e.namaportfolio ?? undefined)
+                .filter(x => x !== undefined)
+                
+            if(nameResult.includes(entityData.namaportfolio)){
+                return Result.error("Name Already Exists")
+            } 
+            
+            return await this.repo.AddRDPortfolio(entityData.toModel())
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Transaction Error';
             return Result.error(errorMessage);

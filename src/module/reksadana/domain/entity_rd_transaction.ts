@@ -1,3 +1,5 @@
+import { RDTransactionModel } from "./model_rd_transaction"
+
 export type transactionType = "PEMBELIAN"|"PENJUALAN"
 export class EntityReksadanaTransaction {
     constructor (
@@ -43,5 +45,23 @@ export class EntityReksadanaTransaction {
 
     isSell() {
         return this.jenistrn === 1
+    }
+
+    toModel(): RDTransactionModel {
+        return {
+            nominaluang:this.nominaluang,
+            nav: this.nav,
+            jumlahunit: this.jumlahunit,
+            jenistrn: this.jenistrn,
+            iduser: this.iduser,
+            rdnid:this.rdnid,
+            rdprodukid: this.rdprodukid,
+            tanggal:this.tanggal,
+            tahun: this.tahun,
+            norekrdn: this.norekrdn,
+            portfolio: this.portfolio,
+            type: this.type,
+            idportfolio:this.idportfolio
+        }
     }
 }

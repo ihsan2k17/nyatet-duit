@@ -1,3 +1,5 @@
+import { RDPortfolioModel } from "./model_rd_portfolio"
+
 export class EntityReksadanaPortfolio {
     constructor (
         public iduser: number,
@@ -7,6 +9,7 @@ export class EntityReksadanaPortfolio {
         public totalunit: number,
         public createby: string,
         public updateby: string,
+        public id?: number
     ) {
         this.validate()
     }
@@ -19,5 +22,18 @@ export class EntityReksadanaPortfolio {
         if(this.totaluang < 0) this.totaluang = 0
         if(this.totalnav < 0) this.totalnav = 0
         if(this.totalunit < 0) this.totalunit = 0
+    }
+    
+    toModel(): RDPortfolioModel {
+        return {
+            iduser:this.iduser,
+            namaportfolio:this.namaportfolio,
+            totaluang: this.totaluang,
+            totalnav:this.totalnav,
+            totalunit:this.totalunit,
+            createby:this.createby,
+            updateby: this.updateby,
+            id:this.id
+        }
     }
 }

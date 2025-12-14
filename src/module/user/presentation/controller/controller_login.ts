@@ -13,7 +13,6 @@ export class LoginController {
 
     constructor() {
         const repo = new UserRepository();
-        //this.service = new UserService(repo);
         this.loginUseCase = new LoginUserusecase(repo)
         this.LoginGoogleUseCase = new GoogleLoginUserusecase(repo)
     }
