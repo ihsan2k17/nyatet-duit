@@ -1,23 +1,25 @@
 import { Result } from "@/shared/types/result";
 import { supabase } from "@/libs/database/configuration";
-import { GetRekasadanaModelView } from "../domain/modelview";
+import { GetRekasadanaModelView, RawReksadana } from "../domain/modelview";
 import { RDTransactionModel } from "../domain/model_rd_transaction";
 import { ModelViewDropdownList } from "@/shared/types/dropdown.list";
 
 class ReksadanaRepository {
-    async GetReksadana(userid: number): Promise<Result<GetRekasadanaModelView>> {
+    async GetReksadana(userid: number): Promise<Result<RawReksadana[]>> {
         try {
             const {data, error} = await supabase.rpc("LK_Reksadana", {
                 puserid: userid
             })
             if(error) {
-                return Result.error<GetRekasadanaModelView>(error.message || "Error Data Brokkk")
+                return Result.error(error.message || "Error Data Brokkk")
             } else if(!data) {
-                return Result.error<GetRekasadanaModelView>("No List Data")
-            } return Result.success<GetRekasadanaModelView>(data.data)
+                return Result.error("No List Data")
+            } 
+            
+            return Result.success<RawReksadana[]>(data.data)
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Login Error'
-            return Result.error<GetRekasadanaModelView>(errorMessage)
+            return Result.error(errorMessage)
         }
     }
 
@@ -79,7 +81,7 @@ class ReksadanaRepository {
         }
     }
     
-    async DDLReksadanaJenisTrn(): Promise<Result<ModelViewDropdownList>>{
+    async DDLReksadanaJenisTrn(): Promise<Result<ModelViewDropdownList[]>>{
         try {
             const {data, error} = await supabase.rpc("lk_ddlinsert_rd_trans",{
                 p_state: 'CEKRDJENISTRANS'
@@ -89,14 +91,14 @@ class ReksadanaRepository {
             } else if(!data) {
                 return Result.error("No Data List")
             } 
-            return Result.success<ModelViewDropdownList>(data.data)
+            return Result.success<ModelViewDropdownList[]>(data.data)
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Login Error'
             return Result.error(errorMessage)
         }
     }
 
-    async DDLReksadanaRDN(userid: number): Promise<Result<ModelViewDropdownList>>{
+    async DDLReksadanaRDN(userid: number): Promise<Result<ModelViewDropdownList[]>>{
         try {
             const {data, error} = await supabase.rpc("lk_ddlinsert_rd_trans",{
                 p_id: userid,
@@ -107,14 +109,14 @@ class ReksadanaRepository {
             } else if (!data) {
                 return Result.error("No Data List")
             }
-            return Result.success<ModelViewDropdownList>(data.data)
+            return Result.success<ModelViewDropdownList[]>(data.data)
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Login Error'
             return Result.error(errorMessage)
         }
     }
 
-    async DDLReksadanaProduk(id: number): Promise<Result<ModelViewDropdownList>>{
+    async DDLReksadanaProduk(id: number): Promise<Result<ModelViewDropdownList[]>>{
         try {
             const {data, error} = await supabase.rpc("lk_ddlinsert_rd_trans",{
                 p_id: id,
@@ -125,14 +127,14 @@ class ReksadanaRepository {
             } else if (!data) {
                 return Result.error("No Data List")
             }
-            return Result.success<ModelViewDropdownList>(data.data)
+            return Result.success<ModelViewDropdownList[]>(data.data)
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Login Error'
             return Result.error(errorMessage)
         }
     }
 
-    async DDLReksadanaPortfolio(id_user: number): Promise<Result<ModelViewDropdownList>>{
+    async DDLReksadanaPortfolio(id_user: number): Promise<Result<ModelViewDropdownList[]>>{
         try {
             const {data, error} = await supabase.rpc("lk_ddlinsert_rd_trans",{
                 p_id: id_user,
@@ -143,7 +145,7 @@ class ReksadanaRepository {
             } else if (!data) {
                 return Result.error("No Data List")
             }
-            return Result.success<ModelViewDropdownList>(data.data)
+            return Result.success<ModelViewDropdownList[]>(data.data)
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Login Error'
             return Result.error(errorMessage)

@@ -1,8 +1,8 @@
 import { Result } from "@/shared/types/result";
 import { hashingPassword } from "@/shared/utils/hashingpassword";
-import { UserDomain } from "../domain/entity_user";
 import { UserModel } from "../domain/model_user";
 import UserRepository from "../infrastructure/repository_user";
+import { EntityUserLogin } from "../domain/entity_user";
 
 export class GoogleLoginUserusecase {
     constructor(private repo: UserRepository) {}
@@ -22,7 +22,7 @@ export class GoogleLoginUserusecase {
                 const data = await this.repo.LoginUser(Username)
                 if(data.status === true && data.data){
                     //domain entity
-                    const entityuser = new UserDomain(
+                    const entityuser = new EntityUserLogin(
                         data.data.username,
                         data.data.name,
                         data.data.password,
@@ -42,7 +42,7 @@ export class GoogleLoginUserusecase {
             const data = await this.repo.LoginUser(result.data!.username)
             if(data.status === true && data.data){
                     //domain entity
-                    const entityuser = new UserDomain(
+                    const entityuser = new EntityUserLogin(
                         data.data.username,
                         data.data.name,
                         data.data.password,

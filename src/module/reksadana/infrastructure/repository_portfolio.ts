@@ -1,6 +1,7 @@
 import { Result } from "@/shared/types/result"
 import { RDPortfolioModel } from "../domain/model_rd_portfolio"
 import { supabase } from "@/libs/database/configuration"
+import { ChartReksadanaModelView } from "../domain/modelview"
 
 export class PortfolioRepository {
     async AddRDPortfolio(model: RDPortfolioModel): Promise<Result<void>> {
@@ -27,20 +28,36 @@ export class PortfolioRepository {
         }
     }
 
-    async ListNameRDPortfolio(iduser: number): Promise<Result<RDPortfolioModel>> {
+    async ListNameRDPortfolio(iduser: number): Promise<Result<RDPortfolioModel[]>> {
         try {
             const {data, error} = await supabase.rpc ("lk_insert_rd_portfolio",{
                 p_state: 'LISTNAMAPORTFOLIO',
                 p_iduser: iduser
             })
             if(error){
-                return Result.error<RDPortfolioModel>(error.message)
+                return Result.error(error.message)
             }
-            return Result.success<RDPortfolioModel>(data as RDPortfolioModel)
+            return Result.success<RDPortfolioModel[]>(data as RDPortfolioModel[])
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Internal Server Error'
             return Result.error(errorMessage)
         }
     }
     
+    async ChartPortfolio(iduser:number, username: string): Promise<Result<ChartReksadanaModelView[]>> {
+        try {
+            const {data, error} = await supabase.rpc("lk_insert_rd_portfolio",{
+                p_state:'GETDATACHARTS',
+                p_username: username,
+                p_userid: iduser
+            }) 
+            if(error) {
+                return Result.error(error.message)
+            }
+            return Result.success<ChartReksadanaModelView[]>(data.data)
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message:'Internal Server Error'
+            return Result.error(errorMessage)
+        }
+    }
 }

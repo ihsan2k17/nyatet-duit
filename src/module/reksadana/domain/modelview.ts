@@ -8,6 +8,35 @@ export interface GetRekasadanaModelView {
     portfolio?: string,
     nominal?: number,
     nav?: number,
+    jumlahunit?: number,
+    tipe?: string
+}
+
+export interface RawReksadana {
+    id?: string,
+    jenis?: string,
+    nama?: string,
+    level?: string,
+    tanggal?: Date,
+    tahun?: number,
+    portfolio?: string,
+    nominal?: number,
+    nav?: number,
     jumlah_unit?: number,
     tipe?: string
+}
+
+export interface ChartReksadanaModelView {
+    tanggal?: string;
+    bulan?: number;
+    tahun?: number;
+    nominaluang?: number;
+    namasekuritas?: string;
+    portfolio?: string;
+}
+
+export interface chartDataReksadanaModelView {
+    [key: string]: string|number,
+    bulan: number,
+    tahun: number
 }

@@ -26,12 +26,14 @@ export class LoginController {
             if(result.status === false) {
                 return NextResponse.json({message: result.message}, {status:400})
             }
+            if(!result.data) {
+                return NextResponse.json({message:"Data Not Found"},{status:404})
+            }
             const token = jwt.sign(
                 {
-                    id: result.data!.userid,
+                    userid: result.data!.userid,
                     username: result.data!.username,
                     name: result.data!.name,
-                    useractive : result.data!.useractive,
                     isonline: result.data!.isonline
     
                 }, SECRET_KEY, { expiresIn:"1D"}
