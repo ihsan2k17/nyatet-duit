@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
-import { HeaderToken } from "../types/headerstoken.user";
+import { TokenPayload } from "../types/token.payloads";
 
-export function getUserFromHeaders (req:NextRequest) :HeaderToken {
+export function getUserFromHeaders (req:NextRequest) :TokenPayload {
     const userid = req.headers.get("x-userid")
     const username = req.headers.get("x-username")
     const name = req.headers.get("x-name")

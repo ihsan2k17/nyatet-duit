@@ -28,9 +28,9 @@ export class DropdownlistReksadanaUsecase {
             return Result.error(errorMessage);
         }
     }
-    async DDLReksadanaProduk(id: number):Promise<Result<ModelViewDropdownList[]>> {
+    async DDLReksadanaProduk(userid: number):Promise<Result<ModelViewDropdownList[]>> {
         try {
-            const res = await this.repo.DDLReksadanaProduk(id)
+            const res = await this.repo.DDLReksadanaProduk(userid)
             if(res.status === false) {
                 return Result.error(res.message)
             }

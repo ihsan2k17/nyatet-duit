@@ -1,6 +1,6 @@
 import { Result } from "@/shared/types/result";
 import { supabase } from "@/libs/database/configuration";
-import { GetRekasadanaModelView, RawReksadana } from "../domain/modelview";
+import { RawReksadana } from "../domain/modelview";
 import { RDTransactionModel } from "../domain/model_rd_transaction";
 import { ModelViewDropdownList } from "@/shared/types/dropdown.list";
 
@@ -116,10 +116,10 @@ class ReksadanaRepository {
         }
     }
 
-    async DDLReksadanaProduk(id: number): Promise<Result<ModelViewDropdownList[]>>{
+    async DDLReksadanaProduk(iduser: number): Promise<Result<ModelViewDropdownList[]>>{
         try {
             const {data, error} = await supabase.rpc("lk_ddlinsert_rd_trans",{
-                p_id: id,
+                p_id: iduser,
                 p_state: 'CEKPRODUKRD'
             })
             if(error) {

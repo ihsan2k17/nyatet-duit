@@ -2,6 +2,6 @@ import { PortfolioController } from "@/module/reksadana/presentation/controller/
 import { NextRequest } from "next/server";
 
 const controller = new PortfolioController();
-export async function GET(req: NextRequest) {
-    return controller.Chart(req);
+export async function POST(req: NextRequest) {
+    return controller.AddPortfolio(req);
 }
