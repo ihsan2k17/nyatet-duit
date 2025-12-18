@@ -1,6 +1,6 @@
 'use client'
 import { ReactNode } from "react"
-import useIsMobile from "../hooks/useIsMobile"
+import useIsMobile from "../../hooks/useIsMobile"
 
 interface ResponsiveProps {
     Mobile? : ReactNode,

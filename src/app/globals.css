@@ -8,6 +8,7 @@
 @theme inline {
   --color-primary: rgb(178, 176, 232);
   --color-secondary: rgb(122, 133, 193);
+  --color-card-primary: rgb(220, 220, 245);
   --color-button-primary: rgb(26, 42, 128);
   --color-button-secondary: rgb(59, 56, 160);
   --color-background: var(--background);

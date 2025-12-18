@@ -1,7 +1,7 @@
 import { BaseController } from "@/shared/base/controllers/controller.base";
 import { DropdownlistReksadanaUsecase } from "../../application/usecase.dropdownlist_rd";
 import ReksadanaRepository from "../../infrastructure/repository_reksadana";
-import { NextProxy, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { getUserFromHeaders } from "@/shared/utils/headerstoken";
 
 export class ReksadanadDropdownListController extends BaseController {

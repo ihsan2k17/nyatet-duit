@@ -5,7 +5,7 @@ import { Result } from "@/shared/types/result";
 class UserRepository { 
     async LoginUser (Username?:string) : Promise<Result<UserModel>> {
         try {
-            const {data,error} = await supabase.rpc("LK_user",{
+            const {data,error} = await supabase.rpc("lk_user",{
                 p_username: Username,
                 p_state: 'LOGINUSER'
             })
@@ -22,11 +22,12 @@ class UserRepository {
     }
     async RegisterUser(Username?:string, Password?:string, Name?:string, Email?:string):Promise<Result<null>>{
         try {
-            const {data, error} = await supabase.rpc("LK_user", {
+            const {data, error} = await supabase.rpc("lk_user", {
                 p_username:Username,
-                p_passwrod:Password,
+                p_password:Password,
                 p_name:Name||null,
                 p_email: Email || null,
+                p_isonline: null,
                 p_state: 'REGISUSER'
             })
             if(error) {
@@ -43,7 +44,7 @@ class UserRepository {
     }
     async CekUserGoogle(Username?:string, Name?:string, Email?:string):Promise<Result<UserModel>> {
         try {
-            const {data, error} = await supabase.rpc("LK_user",{
+            const {data, error} = await supabase.rpc("lk_user",{
                 p_name: Name,
                 p_username: Username,
                 p_email: Email,
@@ -61,11 +62,11 @@ class UserRepository {
             return Result.error<UserModel>(errorMessage)
         }
     }
-    async UpdateUserOnline(Username?:string, isOnline?: number):Promise<Result<null>> {
+    async UpdateUserOnline(Username?:string):Promise<Result<null>> {
         try {
-            const {data, error} = await supabase.rpc("LK_user",{
+            const {data, error} = await supabase.rpc("lk_user",{
                 p_username:Username,
-                p_isonline: isOnline,
+                p_isonline: 1,
                 p_state: 'UPDATEISONLINE'
             })
             if(error) {

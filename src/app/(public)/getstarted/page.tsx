@@ -1,5 +1,4 @@
-import Responsive from '@/shared/ui/responsive'
-import React from 'react'
+import Responsive from '@/shared/ui/layout'
 
 const GetStarted = () => {
     return (

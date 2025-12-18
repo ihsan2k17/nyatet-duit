@@ -26,10 +26,12 @@ export class LoginUserusecase {
                     user.data.email,
                     Number(user.data.isonline)
                 )
+
                 await checkPassword(Password ||"123456" , user.data?.password || "")
                 entityuser.login() 
-                await this.repo.UpdateUserOnline(entityuser.username, entityuser.isonline)
-                return Result.success<UserModel>(user.data, "Login Success")
+                await this.repo.UpdateUserOnline(entityuser.username)
+                
+                return Result.success<UserModel>(entityuser.toModel())
             } return Result.error<UserModel>(user.message)
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Login Error Process'

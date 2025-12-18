@@ -1,3 +1,5 @@
+import { UserModel } from "./model_user";
+
 export class EntityUserLogin {
     constructor(
         public username?: string,
@@ -22,5 +24,13 @@ export class EntityUserLogin {
 
     logout() {
         this.isonline = 0
+    }
+
+    toModel():UserModel {
+        return {
+            username:this.username,
+            name: this.name,
+            isonline: this.isonline
+        }
     }
 }
