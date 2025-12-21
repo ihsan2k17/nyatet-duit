@@ -3,11 +3,11 @@ import UserRepository from "../../infrastructure/repository_user";
 import jwt from "jsonwebtoken";
 import { LoginUserusecase } from "../../application/usecase.login_user";
 import { GoogleLoginUserusecase } from "../../application/usecase.googlelogin_user";
+import { TokenPayload } from "@/shared/types/token.payloads";
 
 const SECRET_KEY = process.env.JWT_SECRET || "secret123";
 const RANDOM_PASSWORD =process.env.NEXT_PUBLIC_GOOGLE_RANDOM_PASSWORD
 export class LoginController {
-    //private service: UserService;
     private loginUseCase: LoginUserusecase;
     private LoginGoogleUseCase: GoogleLoginUserusecase;
 
@@ -16,10 +16,9 @@ export class LoginController {
         this.loginUseCase = new LoginUserusecase(repo)
         this.LoginGoogleUseCase = new GoogleLoginUserusecase(repo)
     }
-    
-    async Login(req: NextRequest) {
-        const body = await req.json();
-        const { Username, Password } = body;
+    async Login(req:NextRequest) {
+        const body = await req.json()
+        const {Username, Password} = body
         try {
             const result = await this.loginUseCase.Login(Username, Password);
             if(result.status === false) {
@@ -28,12 +27,13 @@ export class LoginController {
             if(!result.data) {
                 return NextResponse.json({message:"Data Not Found"},{status:404})
             }
+            const datauser:TokenPayload = result.data 
             const token = jwt.sign(
                 {
-                    userid: result.data!.userid,
-                    username: result.data!.username,
-                    name: result.data!.name,
-                    isonline: result.data!.isonline
+                    userid: datauser.userid, 
+                    username: datauser.username, 
+                    name: datauser.name, 
+                    isonline: datauser.isonline 
     
                 }, SECRET_KEY, { expiresIn:"1D"}
             )
@@ -41,14 +41,9 @@ export class LoginController {
                 status: result.status,
                 message: result.message,
                 token:token,
-                data: result.data
+                data: datauser
             }
             const token_name = process.env.NEXT_TOKEN_LOGIN || "auuuuuu"
-            const clientPayload = {
-                id: result.data!.userid,
-                username: result.data!.username,
-                name: result.data!.name,
-            }
             const res = NextResponse.json(resbody,{status:200})
             res.cookies.set(token_name, token, {
                 httpOnly: true,
@@ -56,12 +51,6 @@ export class LoginController {
                 sameSite: "strict",
                 path: "/",
                 maxAge: 60 * 60, // 1 jam
-            });
-            
-            res.cookies.set("user_info", JSON.stringify(clientPayload), {
-                httpOnly: false,
-                path: "/",
-                sameSite: "strict",
             });
             return res;
         } catch (error: unknown) {

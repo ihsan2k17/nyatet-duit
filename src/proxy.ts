@@ -1,29 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProtectedRoutes } from "./libs/database/protectedroutescache";
-import { VerifyToken } from "./shared/utils/verifytoken";
+import { TokenPayload } from "./shared/types/token.payloads";
+import jwt from "jsonwebtoken"
 
 export async function proxy(req:NextRequest) {
+    const path = req.nextUrl.pathname;
+    const protectedRoutes = await getProtectedRoutes();
+    // ambil token dari cookie
     const token = req.cookies.get(process.env.NEXT_TOKEN_LOGIN || "auuuuuu")?.value
-    const path = req.nextUrl.pathname
-    const protectedRoutes = getProtectedRoutes()
-    const isProtected = protectedRoutes.some(r => path.startsWith(r))
-    if(!isProtected){
-        return NextResponse.next()
+    const isProtected = protectedRoutes.some(r => path.startsWith(r));
+    if (!isProtected) {
+        return NextResponse.next();
     }
-    if(!token || token.trim() === "") {
+
+    if (!token) {
         return NextResponse.redirect(new URL("/login",req.url))
     }
-    try {
-        const payload = VerifyToken(token)
-
-        const headers = new Headers(req.headers)
-        headers.set("x-userid",payload.userid.toString())
-        headers.set("x-username", payload.username)
-        headers.set("x-name", payload.name)
-        headers.set("x-isonline", String(payload.isonline))
-        
-        return NextResponse.next({request:  {headers}})
-    } catch {
-        return NextResponse.redirect(new URL("/login", req.url))
-    }
+    const dataToken = jwt.decode(token!) as TokenPayload | null
+    // opsional: set header
+    const headers = new Headers(req.headers);
+    headers.set("x-userid", String(dataToken!.userid!));
+    headers.set("x-username", dataToken!.username!);
+    headers.set("x-name", dataToken!.name!);
+    headers.set("x-isonline", String(dataToken!.isonline));
+    
+    return NextResponse.next({ request: { headers } });
 }

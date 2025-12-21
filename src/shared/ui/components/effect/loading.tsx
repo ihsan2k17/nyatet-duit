@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
 import {useLottie} from 'lottie-react'
-import useIsMobile from '../hooks/useIsMobile'
-import loadingPaperlane from '../../../public/assets/gif/json/Loading40_Paperplane.json'
+import useIsMobile from '@/shared/hooks/useIsMobile'
+import loadingPaperlane from '../../../../../public/assets/gif/json/Loading40_Paperplane.json'
 
 const LoadingComponent = () => {
     const isMobile = useIsMobile()

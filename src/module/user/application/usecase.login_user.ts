@@ -26,7 +26,7 @@ export class LoginUserusecase {
                     user.data.email,
                     Number(user.data.isonline)
                 )
-
+                console.log(entityuser)
                 await checkPassword(Password ||"123456" , user.data?.password || "")
                 entityuser.login() 
                 await this.repo.UpdateUserOnline(entityuser.username)

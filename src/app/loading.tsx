@@ -1,4 +1,4 @@
-import LoadingComponent from '@/shared/ui/loading'
+import LoadingComponent from '@/shared/ui/components/effect/loading'
 
 const Loading = () => {
     return (

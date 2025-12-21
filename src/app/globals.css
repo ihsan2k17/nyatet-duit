@@ -8,9 +8,28 @@
 @theme inline {
   --color-primary: rgb(178, 176, 232);
   --color-secondary: rgb(122, 133, 193);
+
   --color-card-primary: rgb(220, 220, 245);
+  --color-card-secondary: rgb(200, 205, 235);
+  --color-card-muted: rgb(235, 235, 250);
+
   --color-button-primary: rgb(26, 42, 128);
   --color-button-secondary: rgb(59, 56, 160);
+
+  --color-text-primary: rgb(26, 42, 128);
+  --color-text-secondary: rgb(90, 100, 180);
+  --color-text-muted: rgb(120, 125, 160);
+  --color-text-invert: rgb(255, 255, 255);
+
+  --color-border: rgb(170, 175, 215);
+  --color-ring: rgb(122, 133, 193);
+  --color-disabled: rgb(190, 190, 210);
+
+  --color-info: rgb(90, 100, 180);
+  --color-success: rgb(70, 140, 160);           
+  --color-warning: rgb(200, 170, 90);           
+  --color-danger: rgb(160, 70, 90);             
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

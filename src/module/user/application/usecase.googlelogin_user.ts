@@ -32,7 +32,7 @@ export class GoogleLoginUserusecase {
                         Number(data.data.isonline)
                     )
                     entityuser.login() 
-                    await this.repo.UpdateUserOnline(entityuser.username, entityuser.isonline)
+                    await this.repo.UpdateUserOnline(entityuser.username)
                     return Result.success<UserModel>(data.data, "Register Google Success")
                 }
                 return Result.error<UserModel>(data.message)
@@ -52,7 +52,7 @@ export class GoogleLoginUserusecase {
                         Number(data.data.isonline)
                     )
                     entityuser.login() 
-                    await this.repo.UpdateUserOnline(entityuser.username, entityuser.isonline)
+                    await this.repo.UpdateUserOnline(entityuser.username)
                     return Result.success<UserModel>(data.data, "Login Google Success")
                 }
                 return Result.error<UserModel>(data.message)

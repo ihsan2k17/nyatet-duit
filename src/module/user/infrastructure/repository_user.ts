@@ -7,7 +7,11 @@ class UserRepository {
         try {
             const {data,error} = await supabase.rpc("lk_user",{
                 p_username: Username,
-                p_state: 'LOGINUSER'
+                p_password: null,
+                p_email: null,
+                p_name: null,
+                p_isonline: null,
+                p_state: "LOGINUSER"
             })
             if(error) {
                 return Result.error<UserModel>(error.message)

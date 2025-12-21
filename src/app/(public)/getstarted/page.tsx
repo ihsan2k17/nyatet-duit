@@ -1,10 +1,13 @@
 import Responsive from '@/shared/ui/layout'
+import MobileGetStarted from './components/mobile'
+import DesktopGetStarted from './components/desktop'
 
 const GetStarted = () => {
     return (
         <Responsive 
-            Mobile= { <>Ini Mobile</> }
-            Desktop = {<>Ini Desktop</> }/>
+            Mobile= { <MobileGetStarted/> }
+            Desktop = {<DesktopGetStarted/> }/>
+        
     )
 }
 

@@ -1,5 +1,7 @@
-import React from 'react'
-
+import { Metadata } from 'next'
+export const metadata:Metadata = {
+    title: "Simulation | Nyatet-Duit"
+}
 const Simulation = () => {
     return (
         <div>

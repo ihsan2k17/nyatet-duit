@@ -33,6 +33,9 @@ const dancingScript = Dancing_Script ({
 export const metadata: Metadata = {
   title: "Nyatet-Duit",
   description: "Generated Nyatet Duit",
+  icons:{
+    icon:"/paper-plane-freepik.png"
+  }
 };
 
 export default function RootLayout({
