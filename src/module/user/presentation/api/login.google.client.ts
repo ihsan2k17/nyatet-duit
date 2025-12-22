@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from "axios"
 
-interface iloginClient {
+interface iloginGoogleClient {
     status: boolean,
     data?: {
         username: string,
@@ -10,22 +10,23 @@ interface iloginClient {
     message?: string
 }
 
-export async function fetchLogin(
-    username: string,
-    password: string, 
-): Promise<iloginClient> {
+export async function FetchGoogleLogin (
+    code : string
+    //username: string, name: string, email: string
+):Promise<iloginGoogleClient> {
     try {
-        const res = await axios.post("/api/login", {
-            Username: username, 
-            Password: password
-        }, {withCredentials:true})
+        const res = await axios.post("/api/logingoogle",{
+            code
+            // Username: username,
+            // Name: name,
+            // Email: email
+        },{withCredentials:true})
         return {
             status: res.data.status,
             data: res.data.data,
             message: res.data.message
         }
-    }
-    catch (error: unknown) {
+    } catch (error: unknown) {
         let message= "Terjadi Kesalahan yang tidak diketahui"
         if (axios.isAxiosError(error)) {
             message = error.response?.data?.message || "Terjadi kesalahan saat Login";
@@ -35,4 +36,4 @@ export async function fetchLogin(
             message: message
         }
     }
-}
+} 

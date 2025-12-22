@@ -1,19 +1,27 @@
+// protectedroutescache.ts
 import { supabase } from "./configuration"
 
+let cachedRoutes: string[] | null = null
+
 export async function getProtectedRoutes(): Promise<string[]> {
-    const { data, error } = await supabase
-        .from("master_menu") // <-- pakai underscore, bukan dash
-        .select("route")
-        .eq("access", true)
-        .eq("isacitve", "active")
+  if (cachedRoutes) {
+    return cachedRoutes
+  }
 
-    console.log("getProtectedRoutes -> data:", data)
-    console.log("getProtectedRoutes -> error:", error)
+  const { data, error } = await supabase
+    .from("master_menu")
+    .select("route")
+    .eq("access", true)
+    .eq("isacitve", "active")
 
-    if(error || !data) return []
+  if (error || !data) {
+    cachedRoutes = []
+    return cachedRoutes
+  }
 
-    const routes = data.map(d => d.route)
-    console.log("getProtectedRoutes -> routes mapped:", routes)
+  cachedRoutes = data.map(d => d.route)
 
-    return routes
+  console.log("🔥 getProtectedRoutes loaded ONCE:", cachedRoutes)
+
+  return cachedRoutes
 }

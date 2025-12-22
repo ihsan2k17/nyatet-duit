@@ -7,26 +7,26 @@ import { cn } from "@/libs/utils"
 
 const buttonVariants = cva(
   `inline-flex items-center justify-center gap-2 
-    whitespace-nowrap rounded-md text-sm font-medium 
-    transition-all disabled:pointer-events-none 
-    disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 
-    shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring 
-    focus-visible:ring-ring/50 focus-visible:ring-[3px] 
-    aria-invalid:ring-button-secondary/20 dark:aria-invalid:ring-button-secondary/40 
-    aria-invalid:border-button-secondary`,
+  whitespace-nowrap rounded-md text-sm font-medium 
+  transition-all disabled:pointer-events-none 
+  disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 
+  shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring 
+  focus-visible:ring-ring/50 focus-visible:ring-[3px] 
+  aria-invalid:ring-button-secondary/20 dark:aria-invalid:ring-button-secondary/40 
+  aria-invalid:border-button-secondary`,
   {
     variants: {
       variant: {
-        default: "bg-button-primary text-text-invert hover:bg-primary/90",
+        default: "bg-button-primary cursor-pointer text-text-invert hover:bg-primary/90",
         destructive:
-          "bg-button-secondary text-white hover:bg-button-secondary/90 focus-visible:ring-button-secondary/20 dark:focus-visible:ring-button-secondary/40 dark:bg-button-secondary/60",
+          "bg-button-secondary cursor-pointer text-white hover:bg-button-secondary/90 focus-visible:ring-button-secondary/20 dark:focus-visible:ring-button-secondary/40 dark:bg-button-secondary/60",
         outline:
-          "border bg-border shadow-xs hover:bg-button-primary hover:text-text-primary dark:bg-white/30 dark:border-white dark:hover:bg-white/50",
+          "border bg-border cursor-pointer shadow-xs hover:bg-button-primary hover:text-text-primary dark:bg-white/30 dark:border-white dark:hover:bg-white/50",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-secondary cursor-pointer text-secondary-foreground hover:bg-secondary/80",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-text-primary underline-offset-4 hover:underline",
+          "hover:bg-accent cursor-pointer hover:text-accent-foreground dark:hover:bg-accent/50",
+        link: "text-text-primary cursor-pointer underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

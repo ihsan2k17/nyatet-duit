@@ -3,7 +3,7 @@ import { Button } from '@/shared/ui/components/button/button'
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@/shared/ui/components/field/field'
 import { Input } from '@/shared/ui/components/input/input'
 import { passwordRegex } from '@/shared/utils/passwordregex'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, FormEvent, SetStateAction } from 'react'
 import { FaGoogle } from 'react-icons/fa6'
 
 interface props {
@@ -18,6 +18,8 @@ interface props {
     confirmPassword: string
     setConfirmPassword:Dispatch<SetStateAction<string>>
     setOpenRegis: Dispatch<SetStateAction<boolean>>
+    loading:boolean
+    onSubmit: () => void
 }
 const FormRegister = ({
     username,
@@ -27,12 +29,19 @@ const FormRegister = ({
     email, setEmail, 
     password, setPassword, 
     confirmPassword, setConfirmPassword, 
-    setOpenRegis}:props) => {
+    setOpenRegis,
+    loading, onSubmit}:props) => {
         const passwordValid = passwordRegex.test(password)
         const checkPassword = password.length >= 8 && !passwordValid
         const matchPassword = confirmPassword.length > 0 && password !== confirmPassword
+        const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault()
+            if(onSubmit) {
+                onSubmit()
+            }
+        }
     return (
-        <form className={`flex flex-col w-full p-2 z-99 bg-card-secondary/70 rounded-4xl`}>
+        <form className={`flex flex-col w-full p-2 z-99 bg-card-secondary/70 rounded-4xl`} onSubmit={handleSubmit}>
             <FieldGroup>
                 <div className='flex flex-col items-center p-2'>
                     <label className='text-text-primary font-bold text-lg'>
@@ -109,6 +118,9 @@ const FormRegister = ({
                         Please Check your Confirm Password.
                     </FieldDescription>
                 )}
+                <Field>
+                    <Button type='submit' disabled={loading}>{loading ? "Waiting..." : "Create Account"}</Button>
+                </Field>
                 <FieldSeparator>
                     Or Continue with
                 </FieldSeparator>
@@ -121,9 +133,6 @@ const FormRegister = ({
                         Aleready have an Account?{" "}
                         <a onClick={() => setOpenRegis(false)} className='underline underline-offset-4'>Sign In</a>
                     </FieldDescription>
-                </Field>
-                <Field>
-                    <Button type="submit">Create Account</Button>
                 </Field>
             </FieldGroup>
         </form>

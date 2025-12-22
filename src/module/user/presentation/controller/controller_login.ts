@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken";
 import { LoginUserusecase } from "../../application/usecase.login_user";
 import { GoogleLoginUserusecase } from "../../application/usecase.googlelogin_user";
 import { TokenPayload } from "@/shared/types/token.payloads";
+import axios from "axios";
 
 const SECRET_KEY = process.env.JWT_SECRET || "secret123";
-const RANDOM_PASSWORD =process.env.NEXT_PUBLIC_GOOGLE_RANDOM_PASSWORD
 export class LoginController {
     private loginUseCase: LoginUserusecase;
     private LoginGoogleUseCase: GoogleLoginUserusecase;
@@ -35,7 +35,7 @@ export class LoginController {
                     name: datauser.name, 
                     isonline: datauser.isonline 
     
-                }, SECRET_KEY, { expiresIn:"1D"}
+                }, SECRET_KEY, { expiresIn:"1d"}
             )
             const resbody = {
                 status: result.status,
@@ -43,7 +43,7 @@ export class LoginController {
                 token:token,
                 data: datauser
             }
-            const token_name = process.env.NEXT_TOKEN_LOGIN || "auuuuuu"
+            const token_name = process.env.TOKEN_LOGIN || "auuuuuu"
             const res = NextResponse.json(resbody,{status:200})
             res.cookies.set(token_name, token, {
                 httpOnly: true,
@@ -58,34 +58,58 @@ export class LoginController {
         }
     }
     async LoginWithGoogle(req: NextRequest) {
-        const {username, name, email} = await req.json()
+        //const {Username, Name, Email} = await req.json()
+        const {code} = await req.json()
+        if(!code) {
+            return NextResponse.json(
+                {message: "Google Auth code missing"},
+                {status: 400}
+            )
+        }
         try {
-            const result = await this.LoginGoogleUseCase.CekGoogle(username,RANDOM_PASSWORD,name,email)
+            const tokenRes = await axios.post("https://oauth2.googleapis.com/token", new URLSearchParams({
+                code:code,
+                client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+                redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
+                grant_type:"authorization_code",
+            }).toString(),{
+                headers:{
+                    "Content-Type":"application/x-www-form-urlencoded"
+                }
+            })
+            const accessToken = tokenRes.data.access_token
+            const infoRes = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",{
+                headers: {
+                    Authorization:`Bearer ${accessToken}`
+                }
+            })
+
+            const email = infoRes.data.email
+            const name = infoRes.data.name
+            const result = await this.LoginGoogleUseCase.CekGoogle(email,name,email)
             if(result.status === false) {
                 return NextResponse.json({message: result.message}, {status:400})
+            } else if (!result.data) {
+                return NextResponse.json({message:"Data Not Found"},{status:404})
             }
+            const datauser:TokenPayload = result.data 
             const token = jwt.sign(
                 {
-                    id: result.data!.userid,
-                    username: result.data!.username,
-                    name: result.data!.name,
-                    useractive : result.data!.useractive,
-                    isonline: result.data!.isonline
+                    userid: datauser.userid, 
+                    username: datauser.username, 
+                    name: datauser.name, 
+                    isonline: datauser.isonline 
     
-                }, SECRET_KEY, { expiresIn:"1D"}
+                }, SECRET_KEY, { expiresIn:"1d"}
             )
             const resbody = {
                 status: result.status,
                 message: result.message,
                 token:token,
-                data: result.data
+                data: datauser
             }
-            const token_name = process.env.NEXT_TOKEN_LOGIN || "auuuuuu"
-            const clientPayload = {
-                id: result.data!.userid,
-                username: result.data!.username,
-                name: result.data!.name,
-            }
+            const token_name = process.env.TOKEN_LOGIN || "auuuuuu"
             const res = NextResponse.json(resbody,{status:200})
             res.cookies.set(token_name, token, {
                 httpOnly: true,
@@ -93,12 +117,6 @@ export class LoginController {
                 sameSite: "strict",
                 path: "/",
                 maxAge: 60 * 60, // 1 jam
-            });
-            
-            res.cookies.set("user_info", JSON.stringify(clientPayload), {
-                httpOnly: false,
-                path: "/",
-                sameSite: "strict",
             });
             return res;
         } catch (error: unknown) {

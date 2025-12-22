@@ -13,8 +13,9 @@ interface props {
     setOpenRegis: Dispatch<SetStateAction<boolean>>
     loading:boolean
     onSubmit?: () => void
+    googleLogin?: () => void
 }
-const FormLogin = ({username, setUsername, password, setPassword, setOpenRegis, loading, onSubmit}:props) => {
+const FormLogin = ({username, setUsername, password, setPassword, setOpenRegis, loading, onSubmit, googleLogin}:props) => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if(onSubmit) {
@@ -68,7 +69,7 @@ const FormLogin = ({username, setUsername, password, setPassword, setOpenRegis, 
                     Or Continue with
                 </FieldSeparator>
                 <Field>
-                    <Button variant="destructive" type='button'>
+                    <Button variant="destructive" type='button' onClick={googleLogin}>
                         <FaGoogle />
                         Sign in With Google
                     </Button>

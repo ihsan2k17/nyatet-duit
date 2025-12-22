@@ -6,8 +6,9 @@ import jwt from "jsonwebtoken"
 export async function proxy(req:NextRequest) {
     const path = req.nextUrl.pathname;
     const protectedRoutes = await getProtectedRoutes();
+    
     // ambil token dari cookie
-    const token = req.cookies.get(process.env.NEXT_TOKEN_LOGIN || "auuuuuu")?.value
+    const token = req.cookies.get(process.env.TOKEN_LOGIN || "auuuuuu")?.value
     const isProtected = protectedRoutes.some(r => path.startsWith(r));
     if (!isProtected) {
         return NextResponse.next();

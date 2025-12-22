@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Dancing_Script, Geist, Geist_Mono, Pacifico, Ubuntu } from "next/font/google";
 import "./globals.css";
+import ClientProviders from "@/shared/providers/clientproviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,7 +54,9 @@ export default function RootLayout({
           ${pacifico.variable}
           ${dancingScript.variable} antialiased`}
       >
-        {children}
+        <ClientProviders>        
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
