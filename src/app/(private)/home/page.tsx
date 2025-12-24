@@ -1,5 +1,4 @@
 import { headers } from 'next/headers';
-import React from 'react'
 
 const Home = async () => {
     const headersList =await headers();

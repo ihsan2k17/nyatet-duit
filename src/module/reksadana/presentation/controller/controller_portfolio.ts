@@ -21,7 +21,7 @@ export class PortfolioController extends BaseController {
     async Chart(req:NextRequest) {
         const {userid, username} = getUserFromHeaders(req)
         return this.ExecuteController(() => 
-            this.usecaseChart.ChartData(userid,username)
+            this.usecaseChart.ChartData(userid!,username!)
         )
     }
     async AddPortfolio(req: NextRequest) {

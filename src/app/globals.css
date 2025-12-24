@@ -28,7 +28,19 @@
   --color-info: rgb(90, 100, 180);
   --color-success: rgb(70, 140, 160);           
   --color-warning: rgb(200, 170, 90);           
-  --color-danger: rgb(160, 70, 90);             
+  --color-danger: rgb(160, 70, 90);      
+  
+  --color-sidebar: rgb(34, 45, 110);                     /* background sidebar */
+  --color-sidebar-foreground: rgb(235, 235, 250);        /* text default */
+
+  --color-sidebar-primary: rgb(59, 56, 160);             /* active / selected */
+  --color-sidebar-primary-foreground: rgb(255, 255, 255);
+
+  --color-sidebar-accent: rgb(122, 133, 193);            /* hover */
+  --color-sidebar-accent-foreground: rgb(26, 42, 128);
+
+  --color-sidebar-border: rgb(70, 80, 150);
+  --color-sidebar-ring: rgb(122, 133, 193);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

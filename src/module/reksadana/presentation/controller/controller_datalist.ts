@@ -16,6 +16,6 @@ export class ReksadanaDatalistController extends BaseController {
     async ListData(req:NextRequest) {
         const {userid} = getUserFromHeaders(req)
         return this.ExecuteController(() => 
-        this._usecase.getdata(userid))
+        this._usecase.getdata(userid!))
     }
 }

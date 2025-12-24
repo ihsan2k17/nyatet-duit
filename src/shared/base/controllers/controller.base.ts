@@ -2,9 +2,12 @@ import { NextResponse } from "next/server";
 import { Result } from "@/shared/types/result";
 
 export abstract class BaseController{
+
+    
     protected async ExecuteController<T>(
         usecase:() => Promise<Result<T>>
     ) {
+        
         try {
             const res = await usecase()
             if(res.status === false) {

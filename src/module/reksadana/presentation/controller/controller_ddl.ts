@@ -21,21 +21,21 @@ export class ReksadanadDropdownListController extends BaseController {
     async DDLReksadanaRDN(req: NextRequest) {
         const {userid} = getUserFromHeaders(req)
         return this.ExecuteController(() => 
-            this._usecaseddl.DDLReksadanaRDN(userid)
+            this._usecaseddl.DDLReksadanaRDN(userid!)
         )
     }
 
     async DDLReksadanaProduk(req:NextRequest) {
         const {userid} = getUserFromHeaders(req)
         return this.ExecuteController(() => 
-            this._usecaseddl.DDLReksadanaProduk(userid)
+            this._usecaseddl.DDLReksadanaProduk(userid!)
         )
     }
 
     async DDLReksadanaPortfolio(req:NextRequest) {
         const {userid} = getUserFromHeaders(req)
         return this.ExecuteController(() => 
-            this._usecaseddl.DDLReksadanaPortfolio(userid)
+            this._usecaseddl.DDLReksadanaPortfolio(userid!)
         )
     }
 }

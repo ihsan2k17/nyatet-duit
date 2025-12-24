@@ -15,6 +15,9 @@ export async function proxy(req:NextRequest) {
     }
 
     if (!token) {
+        if(path.startsWith("/api")) {
+            return NextResponse.json({success:false, message: "Unauthorized"},{status:401})
+        }
         return NextResponse.redirect(new URL("/login",req.url))
     }
     const dataToken = jwt.decode(token!) as TokenPayload | null
