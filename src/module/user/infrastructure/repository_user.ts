@@ -82,6 +82,21 @@ class UserRepository {
             return Result.error(errorMessage)
         }
     }
+    async LogoutUser(Username: string): Promise<Result<string>> {
+        try {
+            const {data, error} = await supabase.rpc("lk_user",{
+                p_username:Username,
+                p_state:'LOGOUTUSER'
+            })
+            if(error) {
+                return Result.error(error.message)
+            }
+            return Result.success(data?.message || "Success Logout, Thank you")
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Internal Server Error'
+            return Result.error(errorMessage)
+        }
+    }
 }
 
 export default UserRepository;

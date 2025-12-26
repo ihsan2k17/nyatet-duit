@@ -1,4 +1,5 @@
-import { MenuItem } from '@/shared/types/menuitem'
+
+import { MenuItem } from '@/module/master'
 import { supabasePublic } from './publicconfiguration'
 
 

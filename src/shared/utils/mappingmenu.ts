@@ -1,5 +1,5 @@
 import { MenuItem } from "@/module/master/presentation/api/mastermenu.client";
-import { resolveIcon } from "@/module/master/presentation/ui/components/menus/icon.registry";
+import { resolveIcon } from "@/shared/utils/icon.registry";
 
 export function MappingMenu(data: MenuItem[]) {
     return data.map(item => ({

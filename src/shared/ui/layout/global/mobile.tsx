@@ -3,10 +3,10 @@ import UseIsWidth from "@/shared/hooks/usewidth"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../components/dropdown/dropdown"
 import { Button } from "../../components/button/button"
 import { useEffect, useState } from "react"
-import { MenuItem } from "@/shared/types/menuitem"
 import { usePathname } from "next/navigation"
 import { getNotProtectedRoutes } from "@/libs/database/notprotectedroutes"
 import { FiArrowDown } from "react-icons/fi"
+import { MenuItem } from "@/module/master/presentation/api/mastermenu.client"
 
 const MobileLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
     const tgl = new Date()

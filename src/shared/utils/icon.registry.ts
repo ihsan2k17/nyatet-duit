@@ -10,8 +10,7 @@ import {
 import {
   IoHome,
   IoDocumentText,
-  IoSettingsSharp,
-} from "react-icons/io5"
+  IoSettingsSharp} from "react-icons/io5"
 
 // md
 import {

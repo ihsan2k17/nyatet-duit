@@ -5,16 +5,19 @@ import { LoginUserusecase } from "../../application/usecase.login_user";
 import { GoogleLoginUserusecase } from "../../application/usecase.googlelogin_user";
 import { TokenPayload } from "@/shared/types/token.payloads";
 import axios from "axios";
+import { LogoutUserusecase } from "../../application/usecase.logout_user";
 
 const SECRET_KEY = process.env.JWT_SECRET || "secret123";
 export class LoginController {
     private loginUseCase: LoginUserusecase;
     private LoginGoogleUseCase: GoogleLoginUserusecase;
+    private LogoutUsecase: LogoutUserusecase
 
     constructor() {
         const repo = new UserRepository();
         this.loginUseCase = new LoginUserusecase(repo)
         this.LoginGoogleUseCase = new GoogleLoginUserusecase(repo)
+        this.LogoutUsecase = new LogoutUserusecase(repo)
     }
     async Login(req:NextRequest) {
         const body = await req.json()
@@ -119,6 +122,19 @@ export class LoginController {
                 maxAge: 60 * 60, // 1 jam
             });
             return res;
+        } catch (error: unknown) {
+            return NextResponse.json({success: false, message: "internal Server Error, " + error},{status: 500})
+        }
+    }
+    async Logout(req:NextRequest) {
+        const body = await req.json()
+        const {Username} = body 
+        try {
+            const res = await this.LogoutUsecase.logout(Username)
+            if(res.status) {
+                return NextResponse.json({success: true, message: res.message ?? "Logout Success, Thank You"},{status: 201})
+            }
+            return NextResponse.json({success:false, message: res.message},{status:401})
         } catch (error: unknown) {
             return NextResponse.json({success: false, message: "internal Server Error, " + error},{status: 500})
         }

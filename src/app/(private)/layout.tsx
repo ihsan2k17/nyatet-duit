@@ -3,7 +3,6 @@ import DesktopLayout from "@/shared/ui/layout/private/desktop";
 import MobileLayout from "@/shared/ui/layout/private/mobile";
 import { cookies, headers } from 'next/headers';
 import { Metadata } from "next";
-import { userAgent } from "next/server";
 
 export const metadata:Metadata = {
     icons:{

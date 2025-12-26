@@ -1,12 +1,15 @@
 'use client'
 import Image from 'next/image'
-
-import Logo from '../../../../../../../public/assets/icon/paperplane_add.svg'
+import Logo from '../../../../../../../../public/assets/icon/paperplane_add.svg'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/shared/ui/components/sidebar/sidebar'
-import { navitemprops, NavMain } from './nav.main'
 import { useEffect, useState } from 'react'
-import { FetchMasterMenu } from '../../../api/mastermenu.client'
+import { FetchMasterMenu } from '../../../../api/mastermenu.client'
 import { MappingMenu } from '@/shared/utils/mappingmenu'
+import { MasterMenuSeed } from '@/module/master/domain/seed_mastermenu'
+import { navitemprops, NavMain } from './nav.main'
+import { NavSecondary } from './nav.secondary'
+import { NavUser } from './nav.user'
+
 interface props {
     name: string,
     username: string
@@ -51,8 +54,15 @@ const AppSidebar = ({name,username}: props) => {
             {/* BODY */}
             <SidebarContent>
                 {loading ? <div className='p-4 text-sm text-muted-foreground'>Loading...</div>:<NavMain items={items} /> }
+                <NavSecondary items={MasterMenuSeed.navSecondary} className='mt-auto' />
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter>
+                <NavUser user={{
+                    name:name,
+                    email:username,
+                    avatar: '/assets/image/avatar_lion.png'
+                }}/>
+            </SidebarFooter>
         </Sidebar>
   )
 }
