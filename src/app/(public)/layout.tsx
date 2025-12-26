@@ -1,4 +1,3 @@
-import Responsive from '@/shared/ui/layout';
 import DesktopLayout from '@/shared/ui/layout/global/desktop';
 import MobileLayout from '@/shared/ui/layout/global/mobile';
 import { Metadata } from 'next';
@@ -10,14 +9,23 @@ export const metadata:Metadata = {
 }
 const Layout = ({children,}: Readonly<{children: React.ReactNode;}>) => {
     return (
-        <Responsive 
-            Mobile= {
+        // <Responsive 
+        //     Mobile= {
+        //         <MobileLayout>{children}</MobileLayout>
+        //     }
+        //     Desktop = {
+        //         <DesktopLayout>{children}</DesktopLayout>
+        //     }
+        // />
+        <div>
+            <div className="block md:hidden">
                 <MobileLayout>{children}</MobileLayout>
-            }
-            Desktop = {
+            </div>
+
+            <div className="hidden md:block">
                 <DesktopLayout>{children}</DesktopLayout>
-            }
-        />
+            </div>
+        </div>
     )
 }
 

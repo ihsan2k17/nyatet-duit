@@ -1,6 +1,5 @@
 import LoginDesktop from '@/module/user/presentation/ui/pages/logindesktop'
 import LoginMobile from '@/module/user/presentation/ui/pages/loginmobile'
-import Responsive from '@/shared/ui/layout'
 
 import { Metadata } from 'next'
 
@@ -9,10 +8,19 @@ export const metadata: Metadata ={
 }
 const Login = () => {
     return (
-        <Responsive 
-            Mobile={<LoginMobile/>}
-            Desktop={<LoginDesktop/>}
-        />
+        // <Responsive 
+        //     Mobile={<LoginMobile/>}
+        //     Desktop={<LoginDesktop/>}
+        // />
+        <div>
+            <div className="block md:hidden">
+                <LoginMobile/>
+            </div>
+
+            <div className="hidden md:block">
+                <LoginDesktop/>
+            </div>
+        </div>
     )
 }
 
