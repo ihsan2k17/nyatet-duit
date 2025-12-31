@@ -1,13 +1,17 @@
-import Responsive from '@/shared/ui/layout'
 import MobileGetStarted from './components/mobile'
 import DesktopGetStarted from './components/desktop'
 
 const GetStarted = () => {
     return (
-        <Responsive 
-            Mobile= { <MobileGetStarted/> }
-            Desktop = {<DesktopGetStarted/> }/>
-        
+        <div>
+            <div className="block md:hidden">
+                <MobileGetStarted/>
+            </div>
+
+            <div className="hidden md:block">
+                <DesktopGetStarted/>
+            </div>
+        </div>
     )
 }
 

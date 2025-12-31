@@ -1,5 +1,6 @@
 
-import { MenuItem } from '@/module/master'
+
+import { MenuItem } from '@/module/master/presentation/api/mastermenu.client'
 import { supabasePublic } from './publicconfiguration'
 
 

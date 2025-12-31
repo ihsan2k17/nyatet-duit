@@ -21,7 +21,5 @@ export async function getProtectedRoutes(): Promise<string[]> {
 
   cachedRoutes = data.map(d => d.route)
 
-  console.log("🔥 getProtectedRoutes loaded ONCE:", cachedRoutes)
-
   return cachedRoutes
 }

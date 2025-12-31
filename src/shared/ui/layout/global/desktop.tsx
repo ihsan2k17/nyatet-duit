@@ -22,9 +22,9 @@ const DesktopLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
     
     return (
         <section className={`
-        relative flex flex-col min-h-screen 
-        before:absolute before:inset-0 before:bg-primary before:opacity-75
-        bg-[url('/assets/image/bg.jpg')] bg-no-repeat bg-cover bg-center`}>
+            relative flex flex-col min-h-screen 
+            before:absolute before:inset-0 before:bg-primary before:opacity-75
+            bg-[url('/assets/image/bg.jpg')] bg-no-repeat bg-cover bg-center`}>
             <header className='w-full'>
                 <nav className='h-16 sticky top-0 z-100'>
                     <Navbar />
@@ -35,7 +35,7 @@ const DesktopLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
                     <div className="absolute right-0 bottom-0 h-screen">{View1.View}</div>
                     <div className="absolute right-0 bottom-10 h-1/2">{View2.View}</div>
                 </div>
-                <div className="relative z-10 flex-1 flex flex-col">
+                <div className="relative z-10 flex-1 flex flex-col justify-center items-center">
                     {children}
                 </div>
             </main>

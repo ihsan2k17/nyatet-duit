@@ -8,6 +8,8 @@ import { Dispatch, FormEvent, SetStateAction } from 'react'
 import { FaGoogle } from 'react-icons/fa6'
 import Image from 'next/image'
 import image from "../../../../../../../public/assets/icon/paper-plane-freepik.png"
+import { useLottie } from 'lottie-react'
+import Login from '../../../../../../../public/assets/gif/json/LoginAnimation.json'
 
 interface props {
     username:string
@@ -45,6 +47,16 @@ const FormRegister = ({
             onSubmit()
         }
     }
+    const planeStyle = {
+        width: "100%",
+        height: "100%"
+    }
+    const planeAnimation = {
+        animationData: Login,
+        loop: true,
+        autoplay: true,
+    }
+    const View1 = useLottie(planeAnimation, planeStyle )
     return (
         <div className='flex flex-1 w-full justify-center items-center'>
             <Card className={`overflow-hidden p-0 w-full bg-card-secondary/70 border-0`}>
@@ -156,8 +168,10 @@ const FormRegister = ({
                                 </Field>
                         </FieldGroup>
                     </form>
-                    <div className='relative flex justify-center items-center'>
-                        <Image src={image} alt="Icon Menu" fill className='object-contain' priority />
+                    <div className='relative flex justify-center items-center h-full'>
+                        {View1 ? 
+                            <div className='w-full h-full'>{View1.View}</div>
+                        :<Image src={image} alt="Icon Menu" fill className='object-contain' priority />}
                     </div>
                 </CardContent>
             </Card>

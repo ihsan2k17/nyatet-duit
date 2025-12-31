@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react"
 import { getNotProtectedRoutes } from "@/libs/database/notprotectedroutes"
 import icon from "../../../../../public/assets/icon/new-icon.png"
-import { MenuItem } from "@/shared/types/menuitem"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { MenuItem } from "@/module/master/presentation/api/mastermenu.client"
 const Navbar = () => {
   const [routes, setRoutes] = useState<MenuItem[]>([])
   const Router = useRouter()

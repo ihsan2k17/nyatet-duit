@@ -19,10 +19,11 @@ const MobileLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
     }, [])
     const activeRoute = routes.find(r => r.route === pathname)?.nama ?? "None"
     return (
-        <section className={`flex flex-1 flex-col min-h-screen relative
-        before:absolute before:inset-0 before:bg-primary before:opacity-75 before:pointer-events-none
-        bg-[url('/assets/image/bg.jpg')] bg-no-repeat bg-cover bg-center`}>
-            <header className={`absolute right-0 top-0 z-10 p-2`}>
+        <section className={`relative min-h-screen
+    grid grid-rows-[auto_1fr_auto]
+    before:absolute before:inset-0 before:bg-primary before:opacity-75 before:pointer-events-none
+    bg-[url('/assets/image/bg.jpg')] bg-no-repeat bg-cover bg-center`}>
+            <header className={`relative z-10 p-2 justify-self-end`}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button aria-label="Open menu" className="gap-2 group">
@@ -44,10 +45,10 @@ const MobileLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </header>
-            <main className="flex-1 relative w-full flex flex-col min-h-0">
+            <main className="flex items-center justify-center z-10">
                 {children}
             </main>
-            <footer className="h-12 text-center py-3 z-100">
+            <footer className="h-12 text-center py-3 z-10">
                 <label className={`text-button-primary font-bold ${useWidth ? 'text-xs': 'text-base'}`}>
                     Powered by Nextjs, Freepik and Supabase © {datenow}
                 </label>

@@ -8,10 +8,6 @@ export const metadata: Metadata ={
 }
 const Login = () => {
     return (
-        // <Responsive 
-        //     Mobile={<LoginMobile/>}
-        //     Desktop={<LoginDesktop/>}
-        // />
         <div>
             <div className="block md:hidden">
                 <LoginMobile/>

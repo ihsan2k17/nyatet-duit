@@ -15,19 +15,6 @@ const Layout =async ({children,}: Readonly<{children: React.ReactNode;}>) => {
     const name = headersList.get("x-name") ?? "";
     const username = headersList.get("x-username") ?? "";
     return (
-        // <Responsive 
-        //     Mobile= {
-        //         <MobileLayout>{children}</MobileLayout>
-        //     }
-        //     Desktop = {
-        //         <DesktopLayout 
-        //             name={name} 
-        //             username={username}
-        //             defaultOpen={defaultOpen}>
-        //             {children}
-        //         </DesktopLayout>
-        //     }
-        // />
         <div>
             <div className="block md:hidden">
                 <MobileLayout>{children}</MobileLayout>

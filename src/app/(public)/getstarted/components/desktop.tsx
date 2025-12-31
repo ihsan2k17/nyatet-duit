@@ -1,8 +1,10 @@
-import React from 'react'
+'use client'
+import { useRouter } from 'next/navigation'
 
 const DesktopGetStarted = () => {
+    const router = useRouter()
     return (
-        <div className='flex-1 flex flex-col justify-center items-center gap-5 p-5 w-full'>
+        <div className='flex-1 flex flex-col justify-center items-center gap-5 p-5 w-full '>
             <label className='text-center font-medium text-button-primary text-lg p-7'>
                 Brok, let’s be honest, ngatur duit itu bukan soal ribet atau sok finansial, 
                 tapi soal bikin hidup lo lebih ke-control dan nggak ngerasa clueless tiap kali 
@@ -14,8 +16,10 @@ const DesktopGetStarted = () => {
                 Ujung-ujungnya, lo tetap bisa enjoy hidup sekarang sambil pelan-pelan 
                 ngebangun future yang lebih aman, stabil, dan realistic buat diri lo sendiri.
             </label>
-            <button className='bg-button-primary p-2 px-9 rounded-4xl text-card-primary font-medium text-lg
-                transition-all duration-100 hover:font-semibold hover:bg-button-secondary cursor-pointer'>
+            <button 
+                onClick={() => router.push('/login')}
+                className='bg-button-primary p-2 px-9 rounded-4xl text-card-primary font-medium text-lg
+                    transition-all duration-100 hover:font-semibold hover:bg-button-secondary cursor-pointer'>
                 Lets See
             </button>
         </div>

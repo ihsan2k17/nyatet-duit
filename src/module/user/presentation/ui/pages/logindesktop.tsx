@@ -9,6 +9,9 @@ import ErrorDesktop from '@/shared/ui/components/modal/desktop/error'
 import { capitalize } from '@/shared/utils/capitalize'
 import Success from '@/shared/ui/components/modal/desktop/success'
 import GoogleLogin from '@/shared/hooks/useLoginGoogle'
+import Image from "next/image"
+import icon from '../../../../../../public/assets/icon/new-icon.png'
+import { Label } from '@/shared/ui/components/label/label'
 
 const LoginDesktop = () => {
     type modalsType = "error" | "success" | "warning" | null 
@@ -25,6 +28,7 @@ const LoginDesktop = () => {
     const [modalType, setModalType] = useState<modalsType>(null)
     const [error, setError] = useState<string|null>(null)
     const router = useRouter()
+    
 
     const [loggedUser, setLoggedUser] = useState<{
         username?: string,
@@ -160,6 +164,10 @@ const LoginDesktop = () => {
         <div className={`relative flex flex-col min-h-screen
         before:absolute before:inset-0 before:bg-primary before:opacity-75
         bg-[url('/assets/image/bg.jpg')] bg-no-repeat bg-cover bg-center`}>
+            <div className='absolute flex flex-row flex-1 w-full h-15 top-0 z-10 justify-between'>
+                <Image src={icon} alt="Logo Menu" height={150} width={150} priority />
+                <Label className='text-text-primary text-2xl font-semibold mr-5'>Nyatet-Duit</Label>
+            </div>
             <div className='relative flex flex-col flex-1 justify-center items-start 
                 px-4 py-0
                 lg:px-40 lg:py-16'>
