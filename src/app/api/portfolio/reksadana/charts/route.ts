@@ -1,4 +1,4 @@
-import { PortfolioController } from "@/module/reksadana/presentation/controller/controller_portfolio";
+import { PortfolioController } from "@/module/portfolio/presentation/controller/controller_portfolio";
 import { NextRequest } from "next/server";
 
 const controller = new PortfolioController();

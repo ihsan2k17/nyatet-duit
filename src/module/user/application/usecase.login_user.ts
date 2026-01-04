@@ -18,6 +18,7 @@ export class LoginUserusecase {
             if(user.status === true && user.data) {
                 //domain entity
                 const entityuser = new EntityUserLogin(
+                    user.data.userid,
                     user.data.username,
                     user.data.name,
                     user.data.password,

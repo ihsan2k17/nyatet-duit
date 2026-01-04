@@ -28,23 +28,40 @@ export class PortfolioRepository {
         }
     }
 
-    async ListNameRDPortfolio(iduser: number): Promise<Result<RDPortfolioModel[]>> {
+    async CheckNameRDPortfolio(iduser:number, namaportfolio:string):Promise<boolean> {
+        try {
+            const {data, error} = await supabase.rpc("lk_insert_rd_portfolio", {
+                p_state:'CEKNAMAPORTFOLIO',
+                p_iduser: iduser,
+                p_namaportfolio: namaportfolio
+            })
+            if(error) throw error
+            if(data == null) {
+                return false
+            } return true
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message:'Internal Server Error'
+            throw new Error(errorMessage)
+        }
+    }
+
+    async ListNameRDPortfolio(iduser: number): Promise<RDPortfolioModel[]> {
         try {
             const {data, error} = await supabase.rpc ("lk_insert_rd_portfolio",{
                 p_state: 'LISTNAMAPORTFOLIO',
                 p_iduser: iduser
             })
             if(error){
-                return Result.error(error.message)
+                throw error
             }
-            return Result.success<RDPortfolioModel[]>(data as RDPortfolioModel[])
+            return data?.data ?? []
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Internal Server Error'
-            return Result.error(errorMessage)
+            throw new Error(errorMessage)
         }
     }
     
-    async ChartPortfolio(iduser:number, username: string): Promise<Result<ChartReksadanaModelView[]>> {
+    async ChartPortfolio(iduser:number, username: string): Promise<ChartReksadanaModelView[]> {
         try {
             const {data, error} = await supabase.rpc("lk_insert_rd_portfolio",{
                 p_state:'GETDATACHARTS',
@@ -52,12 +69,12 @@ export class PortfolioRepository {
                 p_userid: iduser
             }) 
             if(error) {
-                return Result.error(error.message)
+                throw error
             }
-            return Result.success<ChartReksadanaModelView[]>(data.data)
+            return data?.data ?? []
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message:'Internal Server Error'
-            return Result.error(errorMessage)
+            throw new Error(errorMessage)
         }
     }
 }

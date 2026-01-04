@@ -1,7 +1,16 @@
-import { ReksadanaDatalistController } from "@/module/reksadana/presentation/controller/controller_datalist";
-import { NextRequest } from "next/server";
+import { AuthValidate } from "@/libs/authtoken";
+import { ReksadanaDatalistController } from "@/module/portfolio/presentation/controller/controller_datalist";
+import { NextRequest, NextResponse } from "next/server";
 
 const controller = new ReksadanaDatalistController();
 export async function GET(req:NextRequest) {
-    return controller.ListData(req);
+    
+    const user = await AuthValidate(req)
+        if(!user?.userid) {
+            return NextResponse.json(
+                { message: "Unauthorized" },
+                { status: 401 }
+            );
+        }
+    return controller.ListData(user.userid);
 }

@@ -23,6 +23,7 @@ export class GoogleLoginUserusecase {
                 if(data.status === true && data.data){
                     //domain entity
                     const entityuser = new EntityUserLogin(
+                        data.data.userid,
                         data.data.username,
                         data.data.name,
                         data.data.password,
@@ -43,6 +44,7 @@ export class GoogleLoginUserusecase {
             if(data.status === true && data.data){
                 //domain entity
                 const entityuser = new EntityUserLogin(
+                    data.data.userid,
                     data.data.username,
                     data.data.name,
                     data.data.password,

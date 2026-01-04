@@ -5,22 +5,16 @@ import { RDTransactionModel } from "../domain/model_rd_transaction";
 import { ModelViewDropdownList } from "@/shared/types/dropdown.list";
 
 class ReksadanaRepository {
-    async GetReksadana(userid: number): Promise<Result<RawReksadana[]>> {
-        try {
-            const {data, error} = await supabase.rpc("LK_Reksadana", {
-                puserid: userid
-            })
-            if(error) {
-                return Result.error(error.message || "Error Data Brokkk")
-            } else if(!data) {
-                return Result.error("No List Data")
-            } 
-            
-            return Result.success<RawReksadana[]>(data.data)
-        } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message:'Login Error'
-            return Result.error(errorMessage)
-        }
+    async GetReksadana(userid: number): Promise<RawReksadana[]> {
+        const {data, error} = await supabase.rpc("lk_reksadana", {
+            puserid: userid,
+            pusername:null,
+            state: 'CEKDATA'
+        })
+        if(error) {
+            throw error
+        } 
+        return data?.data ?? []
     }
 
     async AddBuyReksadanaTrn(model: RDTransactionModel): Promise<Result<void>> {

@@ -1,4 +1,4 @@
-import { ReksadanadDropdownListController } from "@/module/reksadana/presentation/controller/controller_ddl";
+import { ReksadanadDropdownListController } from "@/module/portfolio/presentation/controller/controller_ddl";
 
 const controller = new ReksadanadDropdownListController();
 export async function GET() {

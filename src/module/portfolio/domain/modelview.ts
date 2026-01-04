@@ -23,7 +23,7 @@ export interface RawReksadana {
     nominal?: number,
     nav?: number,
     jumlah_unit?: number,
-    tipe?: string
+    type?: string
 }
 
 export interface ChartReksadanaModelView {

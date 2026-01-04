@@ -40,22 +40,27 @@ export class LoginController {
     
                 }, SECRET_KEY, { expiresIn:"1d"}
             )
+            
             const resbody = {
                 status: result.status,
                 message: result.message,
                 token:token,
                 data: datauser
             }
+            const hasBearer = req.headers.get("authorization")?.startsWith("Bearer ")
             const token_name = process.env.TOKEN_LOGIN || "auuuuuu"
-            const res = NextResponse.json(resbody,{status:200})
-            res.cookies.set(token_name, token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "lax",
-                path: "/",
-                maxAge: 60 * 60, // 1 jam
-            });
-            return res;
+            if(!hasBearer) {
+                const res = NextResponse.json(resbody,{status:200})
+                res.cookies.set(token_name, token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                    sameSite: "lax",
+                    path: "/",
+                    maxAge: 60 * 60, // 1 jam
+                });
+                return res;
+            }
+            return NextResponse.json(resbody)
         } catch (error: unknown) {
             return NextResponse.json({success: false, message: "internal Server Error, " + error},{status: 500})
         }

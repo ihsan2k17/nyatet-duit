@@ -1,10 +1,17 @@
-import { ValidateToken } from "@/libs/authtoken";
+import { AuthValidate } from "@/libs/authtoken";
 import { LoginController } from "@/module/user/presentation/controller/controller_login";
 import { NextRequest, NextResponse } from "next/server";
 
 const controller = new LoginController();
 export const POST = async (req: NextRequest) => {
-    const Auth = ValidateToken()
-    if(Auth instanceof NextResponse) return Auth
+    // const Auth = ValidateToken()
+    // if(Auth instanceof NextResponse) return Auth
+    const user = await AuthValidate(req)
+    if(!user) {
+        return NextResponse.json(
+            { message: "Unauthorized" },
+            { status: 401 }
+        );
+    }
     return await controller.Logout(req);
 }

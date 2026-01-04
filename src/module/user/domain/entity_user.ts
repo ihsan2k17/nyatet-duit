@@ -2,6 +2,7 @@ import { UserModel } from "./model_user";
 
 export class EntityUserLogin {
     constructor(
+        public userid?: number,
         public username?: string,
         public name?: string,
         public password?: string,
@@ -28,6 +29,7 @@ export class EntityUserLogin {
 
     toModel():UserModel {
         return {
+            userid:this.userid,
             username:this.username,
             name: this.name,
             isonline: this.isonline

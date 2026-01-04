@@ -1,5 +1,5 @@
 import { ValidateToken } from "@/libs/authtoken";
-import { PortfolioController } from "@/module/reksadana/presentation/controller/controller_portfolio";
+import { PortfolioController } from "@/module/portfolio/presentation/controller/controller_portfolio";
 import { NextRequest, NextResponse } from "next/server";
 
 const controller = new PortfolioController();

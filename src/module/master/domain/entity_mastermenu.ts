@@ -1,4 +1,3 @@
-import { RDMasterMenuModel } from "./model_mastermenu"
 
 export class EntityMasterMenu {
     private children: EntityMasterMenu[] = []
@@ -64,17 +63,20 @@ export class EntityMasterMenu {
         return this.parentId
     }
 
-    toModel():RDMasterMenuModel {
-        return {
-            id: this.id,
-            nama: this.nama,
-            route: this.route,
-            parent_id: this.parentId,
-            urut: this.urut,
-            icon: this.icon,
-            iconName: this.iconName,
-            children: this.children.map(child => child.toModel())
-        }
-    }
+    withNormalizedName(): EntityMasterMenu {
+        const menu = new EntityMasterMenu(
+            this.id,
+            this.nama.trim(),
+            this.route,
+            this.urut,
+            this.icon,
+            this.iconName,
+            this.parentId
+        );
+        this.children.forEach(child => {
+            menu.addChild(child.withNormalizedName());
+        });
 
+        return menu;
+    }
 }

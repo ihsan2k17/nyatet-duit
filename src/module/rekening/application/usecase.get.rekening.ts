@@ -14,15 +14,14 @@ export class GetRekeningUsecase {
         if (raw.length === 0) {
             return Result.error("Account number is empty")
         }
-
         const entities = raw.map(item =>
             new EntityGetRekening(
-                item.id ?? null,
+                item.id ?? 0,
                 item.nama_rekening ?? "",
                 item.no_rekening ?? 0,
-                item.id_user ?? 0,
                 item.bank ?? "",
-                item.isActive ?? false
+                item.isActive ?? false,
+                item.saldo ?? 0
             ).withNormalizedName()
         );
 
@@ -30,10 +29,11 @@ export class GetRekeningUsecase {
             id: e.id ?? 0,
             nama: e.namaRekening,
             noRekening: e.noRekening,
-            id_user: e.idUser,
             bank: e.bank,
-            isActive: e.isActive
+            isActive: e.isActive,
+            saldo:e.saldo
         }))
+
         return Result.success(viewModel)
     }
 }

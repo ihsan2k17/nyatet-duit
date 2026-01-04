@@ -61,8 +61,8 @@ const DesktopLayout = ({children, name, username, defaultOpen}: props) => {
             <AppSidebar 
                 name={name} 
                 username={username}
-                items={items} setItems={setItems}
-                loading={loading} setLoading={setLoading}/>
+                items={items} 
+                loading={loading} />
             <SidebarInset>
                 <header className="flex shrink-0 items-center gap-2 border-b border-sidebar p-2">
                     <SidebarTrigger className='text-text-primary hover:bg-button-primary hover:text-text-invert'/>

@@ -15,5 +15,6 @@ export interface RDRekeningViewModel {
     nama: string,
     noRekening: number,
     bank: string,
-    isActive: boolean
+    isActive: boolean,
+    saldo: number
 }

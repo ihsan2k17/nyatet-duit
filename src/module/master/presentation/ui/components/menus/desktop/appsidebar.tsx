@@ -2,9 +2,6 @@
 import Image from 'next/image'
 import Logo from '../../../../../../../../public/assets/icon/paperplane_add.svg'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/shared/ui/components/sidebar/sidebar'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { FetchMasterMenu } from '../../../../api/mastermenu.client'
-import { MappingMenu } from '@/shared/utils/mappingmenu'
 import { MasterMenuSeed } from '@/module/master/domain/seed_mastermenu'
 import { navitemprops, NavMain } from './nav.main'
 import { NavSecondary } from './nav.secondary'
@@ -14,11 +11,9 @@ interface props {
     name: string,
     username: string,
     items: navitemprops[]
-    setItems: Dispatch<SetStateAction<navitemprops[]>>
     loading: boolean
-    setLoading: Dispatch<SetStateAction<boolean>>
 }
-const AppSidebar = ({name,username, items, setItems, loading, setLoading}: props) => {
+const AppSidebar = ({name,username, items, loading}: props) => {
     
     
     return (

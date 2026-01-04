@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
-import PortfolioMobile from './components/mobile'
-import PortfolioDesktop from './components/desktop'
+import PortfolioMobile from '../../../module/portfolio/presentation/ui/pages/mobile'
+import PortfolioDesktop from '../../../module/portfolio/presentation/ui/pages/desktop'
 export const metadata: Metadata ={
-    title:"Login | Nyatet-Duit"
+    title:"Portfolio | Nyatet-Duit"
 }
 const Portfolio = () => {
     return (

@@ -14,6 +14,6 @@ export function getUserFromHeaders (req:NextRequest) :TokenPayload {
         userid: Number(userid),
         username: username,
         name: name,
-        isonline: Boolean(isonline)
+        isonline: Number(isonline)
     }
 }

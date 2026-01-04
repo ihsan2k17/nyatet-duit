@@ -25,6 +25,8 @@
     "bcrypt": "^6.0.0",
     "cheerio": "^1.1.2",
     "class-variance-authority": "^0.7.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
     "jsonwebtoken": "^9.0.2",
     "lottie-react": "^2.4.1",

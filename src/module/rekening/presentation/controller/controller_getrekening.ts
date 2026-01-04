@@ -1,7 +1,6 @@
-import { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { GetRekeningUsecase } from "../../application/usecase.get.rekening";
 import { RekeningRepository } from "../../infrastructure/repository_rekening";
-import { getUserFromHeaders } from "@/shared/utils/headerstoken";
 import { BaseController } from "@/shared/base/controllers/controller.base";
 
 export class RekeningGetDataController extends BaseController{
@@ -12,10 +11,13 @@ export class RekeningGetDataController extends BaseController{
         this._usecase = new GetRekeningUsecase(repo)
     }
 
-    async ReadAllRekening(req: NextRequest) {
-        const {userid} = getUserFromHeaders(req)
+    async ReadAllRekening(userid: number) {
+        if(!userid) {
+            return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
+        }
+        
         return this.ExecuteController(() => {
-            return this._usecase.execute(userid!)
+            return this._usecase.execute(userid)
         })
     }
 }
