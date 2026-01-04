@@ -10,7 +10,6 @@ export abstract class BaseController{
         
         try {
             const res = await usecase()
-            console.log("data cntrl: ",res)
             if(res.status === false) {
                 return NextResponse.json({success: false, message:res.message},{status:404})
             }
