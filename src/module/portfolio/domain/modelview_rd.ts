@@ -12,6 +12,21 @@ export interface GetRekasadanaModelView {
     tipe?: string
 }
 
+export interface GetCountReksadanaModelView {
+    countProduct : number,
+    countPortfolio: number,
+    sumPortfolio: number
+}
+
+export interface GetCardReksadanaModelView {
+    portfolio?: string,
+    totalNominal?: number,
+    totalNAV?: number,
+    totalUnit?: number,
+    countPengelola?: number
+}
+
+
 export interface RawReksadana {
     id?: string,
     jenis?: string,

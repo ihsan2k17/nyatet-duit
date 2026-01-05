@@ -1,8 +1,8 @@
 import { AuthValidate } from "@/libs/authtoken";
-import { ReksadanaDatalistController } from "@/module/portfolio/presentation/controller/controller.datalist_rd";
+import { ReksadanaController } from "@/module/portfolio/presentation/controller/controller.datalist_rd";
 import { NextRequest, NextResponse } from "next/server";
 
-const controller = new ReksadanaDatalistController();
+const controller = new ReksadanaController();
 export async function GET(req:NextRequest) {
     
     const user = await AuthValidate(req)
@@ -12,5 +12,5 @@ export async function GET(req:NextRequest) {
                 { status: 401 }
             );
         }
-    return controller.ListData(user.userid);
+    return controller.KartuData(user.userid);
 }

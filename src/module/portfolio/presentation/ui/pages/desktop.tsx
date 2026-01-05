@@ -23,9 +23,6 @@ const PortfolioDesktop = () => {
     return (
         <div className="flex flex-1 flex-col">
             <div className={`flex flex-col bg-white p-2`}>
-                {/* <div className={`text-2xl font-bold pl-1 pb-4 text-button-primary`}>
-                    <h1>Nilai Portfolio Yang Lu Punya</h1>
-                </div> */}
                 <div className={`flex-row `}>
                     <button 
                         onClick={() => {

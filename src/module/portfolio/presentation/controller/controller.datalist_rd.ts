@@ -3,7 +3,7 @@ import { GetDataListReksadanaUsecase } from "../../application/usecase.getdatali
 import ReksadanaRepository from "../../infrastructure/repository_reksadana";
 import { NextResponse } from "next/server";
 
-export class ReksadanaDatalistController extends BaseController {
+export class ReksadanaController extends BaseController {
     private _usecase: GetDataListReksadanaUsecase
 
     constructor() {
@@ -19,6 +19,24 @@ export class ReksadanaDatalistController extends BaseController {
 
         return this.ExecuteController(() => {
             return this._usecase.getdata(userid)
+        })
+    }
+
+    async ReksadanaAggregate(userid: number) {
+        if(!userid) {
+            return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
+        }
+        return this.ExecuteController(() => {
+            return this._usecase.getReksadanaAggregate(userid)
+        })
+    }
+
+    async KartuData(userid:number) {
+        if(!userid) {
+            return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
+        }
+        return this.ExecuteController(() => {
+            return this._usecase.kartuData(userid)
         })
     }
 }
