@@ -18,9 +18,9 @@ const SectionCardAgg = () => {
         LoadAgg()
     },[])
     return (
-        <div className={`grid grid-cols-1 gap-3 px-4 
-            sm:grid-cols-2 xl:grid-cols-3 xl:gap-7 xl:px-7 
-            lg:px-5 **:data-[slot=card]:w-full`}>
+        <div className={`grid grid-cols-1 gap-3  
+            sm:grid-cols-2 xl:grid-cols-3 xl:gap-7  
+            **:data-[slot=card]:w-full`}>
             {/* <RekeningCard/> */}
             <div className="flex flex-1 w-full p-1">
                 <Card className="w-full">

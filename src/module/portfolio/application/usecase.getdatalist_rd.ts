@@ -58,8 +58,7 @@ export class GetDataListReksadanaUsecase {
              if(res.length === 0) {
                 return Result.error("Data not found")
             }
-
-            const uniqueProduk = new Set<string>()
+            const produkUnitMap: Record<string, number> = {}
             const uniquePortfolio = new Set<string>()
             let sumPortfolio = 0
             for(let i=0; i < res.length; i++) {
@@ -68,17 +67,19 @@ export class GetDataListReksadanaUsecase {
                     uniquePortfolio.add(row.portfolio)
                 }
 
-                if(row.pengelola) {
-                    uniqueProduk.add(row.pengelola)
+                if(row.pengelola && typeof row.jumlah_unit === "number") {
+                    produkUnitMap[row.pengelola] = (produkUnitMap[row.pengelola] ?? 0 ) + row.jumlah_unit
                 }
 
                 if(typeof row.nominal_uang === "number") {
                     sumPortfolio = sumPortfolio + row.nominal_uang
                 }
             }   
-            
+            const ActiveProduk = Object.values(produkUnitMap).filter(
+                (total) => total > 0
+            ).length
             return Result.success({
-                countProduct: uniqueProduk.size,
+                countProduct: ActiveProduk,
                 countPortfolio: uniquePortfolio.size,
                 sumPortfolio
             })
