@@ -15,12 +15,12 @@ export interface GetRekasadanaModelView {
 export interface RawReksadana {
     id?: string,
     jenis?: string,
-    nama?: string,
-    level?: string,
+    pengelola?: string,
+    level_resiko?: string,
     tanggal?: Date,
     tahun?: number,
     portfolio?: string,
-    nominal?: number,
+    nominal_uang?: number,
     nav?: number,
     jumlah_unit?: number,
     type?: string

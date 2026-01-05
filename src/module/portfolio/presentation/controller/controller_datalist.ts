@@ -12,21 +12,11 @@ export class ReksadanaDatalistController extends BaseController {
         this._usecase = new GetDataListReksadanaUsecase(repo)
     }
 
-    // async ListData(userid: number) {
-    //     if(!userid) {
-    //         return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
-    //     }
-    //     console.log("Masuk Controller: ",userid)
-    //     return this.ExecuteController(() => {
-    //         return this._usecase.getdata(userid)
-    //     })
-    // }
-
     async ListData(userid: number) {
         if(!userid) {
             return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
         }
-        console.log("Masuk Controller: ",userid)
+
         return this.ExecuteController(() => {
             return this._usecase.getdata(userid)
         })

@@ -1,6 +1,6 @@
 import { Result } from "@/shared/types/result";
 import { PortfolioRepository } from "../infrastructure/repository_portfolio";
-import { chartDataReksadanaModelView, ChartReksadanaModelView } from "../domain/modelview";
+import { chartDataReksadanaModelView, ChartReksadanaModelView } from "../domain/modelview_rd";
 
 export class ChartPortfolioReksadanaUsecase {
     constructor (private repo: PortfolioRepository) {}
@@ -8,10 +8,10 @@ export class ChartPortfolioReksadanaUsecase {
     async ChartData(iduser: number, username:string):Promise<Result<chartDataReksadanaModelView[]>>{
         try {
             const res = await this.repo.ChartPortfolio(iduser,username)
-            if(res.status === false) {
-                return Result.error(res.message)
+            if(res.length === 0) {
+                return Result.error("Data Not Found")
             }
-            const data = res.data as ChartReksadanaModelView[]
+            const data = res as ChartReksadanaModelView[]
             const hasil: Record<string, chartDataReksadanaModelView> = {}
             for(let i=0; i < data?.length; i++) {
                 const row = data[i]

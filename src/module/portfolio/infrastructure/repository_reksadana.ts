@@ -1,6 +1,6 @@
 import { Result } from "@/shared/types/result";
 import { supabase } from "@/libs/database/configuration";
-import { RawReksadana } from "../domain/modelview";
+import { RawReksadana } from "../domain/modelview_rd";
 import { RDTransactionModel } from "../domain/model_rd_transaction";
 import { ModelViewDropdownList } from "@/shared/types/dropdown.list";
 
