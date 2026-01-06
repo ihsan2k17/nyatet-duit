@@ -1,6 +1,6 @@
 import { Result } from "@/shared/types/result";
 import { PortfolioRepository } from "../infrastructure/repository_portfolio";
-import { chartDataReksadanaModelView, ChartReksadanaModelView } from "../domain/modelview_rd";
+import { chartDataReksadanaModelView } from "../domain/modelview_rd";
 import { EntityReksadanaPortfolioCharts } from "../domain/entity_rd.chart";
 
 export class ChartPortfolioReksadanaUsecase {

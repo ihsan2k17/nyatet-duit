@@ -7,9 +7,8 @@ export class GetAllMasterMenuUseCase {
     constructor(private repo: MenuRepository ){}
     async getAll(): Promise<Result<RDMasterMenuModel[]>> { 
         const menus = await this.repo.getAllMenus()
-        const data = menus.data
 
-        const entities = data!.map(raw => new EntityMasterMenu(
+        const entities = menus!.map(raw => new EntityMasterMenu(
             raw.id,
             raw.nama,
             raw.route,
