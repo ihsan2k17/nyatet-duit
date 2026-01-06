@@ -34,7 +34,9 @@ export class PortfolioRepository {
             p_iduser: iduser,
             p_namaportfolio: namaportfolio
         })
-        if(error) throw error
+        if(error) {
+            throw new Error(`${error.message ?? 'Unknown Supabase error'}`)
+        }
         if(data == null) {
             return false
         } return true
@@ -45,20 +47,26 @@ export class PortfolioRepository {
             p_state: 'LISTNAMAPORTFOLIO',
             p_iduser: iduser
         })
-        if(error){
-            throw error
+        if(error) {
+            throw new Error(`${error.message ?? 'Unknown Supabase error'}`)
         }
         return data?.data ?? []
     }
     
     async ChartPortfolio(iduser:number, username: string): Promise<ChartReksadanaModelView[]> {
         const {data, error} = await supabase.rpc("lk_insert_rd_portfolio",{
-            p_state:'GETDATACHARTS',
+            p_iduser: iduser,
+            p_namaportfolio: null,
+            p_totaluang: null,
+            p_totalnav: null,
+            p_totalunit: null,
+            p_createby:null,
+            p_updateby: null,
             p_username: username,
-            p_userid: iduser
+            p_state:'GETDATACHARTS'
         }) 
         if(error) {
-            throw error
+            throw new Error(`${error.message ?? 'Unknown Supabase error'}`)
         }
         return data?.data ?? []
     }

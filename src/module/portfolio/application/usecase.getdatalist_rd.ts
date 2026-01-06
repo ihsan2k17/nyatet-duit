@@ -2,14 +2,16 @@ import { Result } from "@/shared/types/result";
 import { GetCardReksadanaModelView, GetCountReksadanaModelView, GetRekasadanaModelView } from "../domain/modelview_rd";
 import ReksadanaRepository from "../infrastructure/repository_reksadana";
 import { EntityReksadanaList } from "../domain/entity_rd_list";
-import { getCachedRawReksadana } from "@/libs/cache/Reksadana";
+
+
 
 export class GetDataListReksadanaUsecase {
     constructor(private readonly repo: ReksadanaRepository) {}
 
     async getdata(userid: number): Promise<Result<GetRekasadanaModelView[]>> {
         try {
-            const res = await getCachedRawReksadana(this.repo, userid)
+            
+            const res = await this.repo.GetReksadana(userid)
             
             if(res.length === 0) {
                 return Result.error("Data not found")
@@ -54,7 +56,7 @@ export class GetDataListReksadanaUsecase {
 
     async getReksadanaAggregate(userid: number): Promise<Result<GetCountReksadanaModelView>> {
         try { 
-             const res = await getCachedRawReksadana(this.repo, userid)
+             const res = await this.repo.GetReksadana(userid)
              if(res.length === 0) {
                 return Result.error("Data not found")
             }
@@ -101,7 +103,7 @@ export class GetDataListReksadanaUsecase {
             countPengelola: Set<string>
         }
         try {
-            const res = await getCachedRawReksadana(this.repo, userid)
+            const res = await this.repo.GetReksadana(userid)
             // Kalau gak ada data sama sekali, langsung return error
             if(res.length === 0) {
                 return Result.error("Data not found")

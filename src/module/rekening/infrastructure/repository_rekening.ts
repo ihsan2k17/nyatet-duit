@@ -9,7 +9,7 @@ export class RekeningRepository {
             p_state: 'CEKREKENING'
         })
         if(error) {
-            throw error
+            throw new Error(`${error.message ?? 'Unknown Supabase error'}`)
         }
         return data?.data ?? []
     }

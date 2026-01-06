@@ -2,6 +2,7 @@ import { BaseController } from "@/shared/base/controllers/controller.base";
 import { GetDataListReksadanaUsecase } from "../../application/usecase.getdatalist_rd";
 import ReksadanaRepository from "../../infrastructure/repository_reksadana";
 import { NextResponse } from "next/server";
+import { getCachedgetDataUsecase, getCachedkartuDataUsecase, getCachedReksadanaAggregateUsecase } from "@/module/portfolio/infrastructure/cached.reksadana";
 
 export class ReksadanaController extends BaseController {
     private _usecase: GetDataListReksadanaUsecase
@@ -18,7 +19,7 @@ export class ReksadanaController extends BaseController {
         }
 
         return this.ExecuteController(() => {
-            return this._usecase.getdata(userid)
+            return getCachedgetDataUsecase(this._usecase, userid)
         })
     }
 
@@ -27,7 +28,7 @@ export class ReksadanaController extends BaseController {
             return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
         }
         return this.ExecuteController(() => {
-            return this._usecase.getReksadanaAggregate(userid)
+            return getCachedReksadanaAggregateUsecase(this._usecase, userid)
         })
     }
 
@@ -36,7 +37,7 @@ export class ReksadanaController extends BaseController {
             return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
         }
         return this.ExecuteController(() => {
-            return this._usecase.kartuData(userid)
+            return getCachedkartuDataUsecase(this._usecase, userid)
         })
     }
 }

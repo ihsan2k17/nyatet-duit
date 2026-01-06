@@ -12,8 +12,9 @@ class ReksadanaRepository {
             state: 'CEKDATA'
         })
         if(error) {
-            throw error
-        } 
+            throw new Error(`${error.message ?? 'Unknown Supabase error'}`)
+        }
+        
         return data?.data ?? []
     }
 

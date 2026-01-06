@@ -1,10 +1,12 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { ChartPortfolioReksadanaUsecase } from "../../application/usecase.chartportfolio_rd"
 import { PortfolioRepository } from "../../infrastructure/repository_portfolio"
 import { getUserFromHeaders } from "@/shared/utils/headerstoken"
 import { AddPortfolioReksadanaUsecase } from "../../application/usecase.addportfolio_rd"
 import { BaseController } from "@/shared/base/controllers/controller.base"
 import { RDPortfolioModel } from "../../domain/model_rd_portfolio"
+import { CachedPortfolioChartDataUsecase } from "../../infrastructure/cached.portfolio"
+import { revalidateTag } from "next/cache"
 
 
 export class PortfolioController extends BaseController {
@@ -18,10 +20,12 @@ export class PortfolioController extends BaseController {
         this.usecasePortfolio = new AddPortfolioReksadanaUsecase(repo)
     }
 
-    async Chart(req:NextRequest) {
-        const {userid, username} = getUserFromHeaders(req)
+    async Chart(userid: number, username: string) {
+        if(!userid && !username) {
+            return NextResponse.json({ message: "Unauthorized: Missing user headers" },{status:400});
+        }
         return this.ExecuteController(() => 
-            this.usecaseChart.ChartData(userid!,username!)
+            CachedPortfolioChartDataUsecase(this.usecaseChart, userid, username)
         )
     }
     async AddPortfolio(req: NextRequest) {
@@ -36,8 +40,14 @@ export class PortfolioController extends BaseController {
             createby: username, 
             updateby: username
         }
-        return this.ExecuteController(() => 
-            this.usecasePortfolio.execute(dto)
-        );
+        return this.ExecuteController(async () => {
+            const result = await this.usecasePortfolio.execute(dto)
+            if (result.status === true) {
+                revalidateTag('REKSADANA',{
+                    expire: 20,
+                })
+            }
+            return result
+        })
     }
 }

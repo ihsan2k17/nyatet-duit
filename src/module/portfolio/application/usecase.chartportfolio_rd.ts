@@ -1,6 +1,7 @@
 import { Result } from "@/shared/types/result";
 import { PortfolioRepository } from "../infrastructure/repository_portfolio";
 import { chartDataReksadanaModelView, ChartReksadanaModelView } from "../domain/modelview_rd";
+import { EntityReksadanaPortfolioCharts } from "../domain/entity_rd.chart";
 
 export class ChartPortfolioReksadanaUsecase {
     constructor (private repo: PortfolioRepository) {}
@@ -11,21 +12,27 @@ export class ChartPortfolioReksadanaUsecase {
             if(res.length === 0) {
                 return Result.error("Data Not Found")
             }
-            const data = res as ChartReksadanaModelView[]
-            const hasil: Record<string, chartDataReksadanaModelView> = {}
-            for(let i=0; i < data?.length; i++) {
-                const row = data[i]
+            const hasil: Record<string, EntityReksadanaPortfolioCharts> = {}
+            for(let i=0; i < res?.length; i++) {
+                const row = res[i]
                 const groupKey =`${row.bulan}-${row.tahun}` 
+
                 if(!hasil[groupKey]) {
-                    hasil[groupKey] = {
-                        bulan: row.bulan ?? 0,
-                        tahun: row.tahun ?? 0
-                    }                
+                    hasil[groupKey] = new EntityReksadanaPortfolioCharts (
+                        row.bulan!,
+                        row.tahun!,
+                        {}
+                    )                
                 }
-                const columnKey = row.portfolio ?? '-'
-                hasil[groupKey][columnKey] = row.nominaluang ?? 0
+                
+                hasil[groupKey].key[row.portfolio!] = 
+                    (hasil[groupKey].key[row.portfolio!] ?? 0) + row.nominal_uang!
             }
-            const result = Object.values(hasil)
+            const result:chartDataReksadanaModelView[] = Object.values(hasil).map(e => ({
+                bulan:e.bulan,
+                tahun:e.tahun,
+                ...e.key
+            }))
             return Result.success<chartDataReksadanaModelView[]>(result)
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Data Chart Error: '+ error;

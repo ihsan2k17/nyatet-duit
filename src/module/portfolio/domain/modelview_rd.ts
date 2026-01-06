@@ -45,8 +45,8 @@ export interface ChartReksadanaModelView {
     tanggal?: string;
     bulan?: number;
     tahun?: number;
-    nominaluang?: number;
-    namasekuritas?: string;
+    nominal_uang?: number;
+    nama_sekuritas?: string;
     portfolio?: string;
 }
 
