@@ -1,30 +1,59 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ReksadanaCardItem, ReksadanaClient } from '../../api/reksadana.client'
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/components/card/card'
 import { Badge } from '@/shared/ui/components/badge/badge'
 import { RiCommunityFill } from "react-icons/ri";
 import { TbBuildingCommunity } from "react-icons/tb";
 import { IoMdTrendingUp } from 'react-icons/io'
+import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/components/carousel/carousel'
+import Autoplay from 'embla-carousel-autoplay'
+import { useToast } from '@/shared/ui/components/toast/toast'
 
 const SectionCardPortfolio = () => {
     const [data, setData] = useState<ReksadanaCardItem[]>([])
+    const [loading, setLoading] = useState(false)
+    const toast = useToast()
+    const toastRef= useRef(toast)
+
     useEffect(() => {
-            const api = new ReksadanaClient()
-            async function LoadData() {
+        toastRef.current = toast
+    },[toast])
+
+    useEffect(() => {
+        const api = new ReksadanaClient()
+        async function LoadData() {
+            try {
+                setLoading(true)
                 const res = await api.FetchReksdanaCard()
-                setData(res.data!)
+                if(res.success === true) {
+                    setData(res.data!)
+                    setLoading(false)
+                } else {toastRef.current.error(res.message!)}
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    toastRef.current.error(" \nDetail: " + error.message)
+                } else {
+                    toastRef.current.error("error gak jelas nih tipenya.")
+                }
+            } finally {
+                setLoading(false)
             }
-            LoadData()
-            
-        },[])
+        }
+        LoadData()
+        
+    },[])
     return (
-        <div className={`grid grid-cols-1 gap-3  
-            sm:grid-cols-2 xl:grid-cols-3 xl:gap-7  
-            **:data-[slot=card]:w-full`}>
-            {data.length > 0 &&
-                data.map((item) => (
-                    <div key={item.portfolio} className='flex flex-1 w-full p-1'>
+        <Carousel 
+            plugins={[
+                Autoplay({
+                delay: 3600,
+                }),
+            ]}
+            className={`w-full`}>
+            <CarouselContent className={`grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-7 **:data-[slot=card]:w-full px-4`}>
+                {data.map((item) => (
+                    <CarouselItem key={item.portfolio} className='flex flex-1 w-full p-1'>
                         <Card className='w-full'>
                             <CardHeader>
                                 <CardDescription>Portfolio</CardDescription>
@@ -62,10 +91,10 @@ const SectionCardPortfolio = () => {
                                 </div>
                             </CardContent>
                         </Card>
-                    </div>
-                ))
-            }
-        </div>
+                    </CarouselItem>
+                ))}
+            </CarouselContent>
+        </Carousel>
     )
 }
 

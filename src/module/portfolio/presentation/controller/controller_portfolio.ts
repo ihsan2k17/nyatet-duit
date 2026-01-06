@@ -5,7 +5,7 @@ import { getUserFromHeaders } from "@/shared/utils/headerstoken"
 import { AddPortfolioReksadanaUsecase } from "../../application/usecase.addportfolio_rd"
 import { BaseController } from "@/shared/base/controllers/controller.base"
 import { RDPortfolioModel } from "../../domain/model_rd_portfolio"
-import { CachedPortfolioChartDataUsecase } from "../../infrastructure/cached.portfolio"
+import { CachedPortfolioChartDataUsecase } from "../../infrastructure/cache/cached.portfolio"
 import { revalidateTag } from "next/cache"
 
 

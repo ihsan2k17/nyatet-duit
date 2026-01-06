@@ -2,7 +2,7 @@ import { BaseController } from "@/shared/base/controllers/controller.base";
 import { GetDataListReksadanaUsecase } from "../../application/usecase.getdatalist_rd";
 import ReksadanaRepository from "../../infrastructure/repository_reksadana";
 import { NextResponse } from "next/server";
-import { getCachedgetDataUsecase, getCachedkartuDataUsecase, getCachedReksadanaAggregateUsecase } from "@/module/portfolio/infrastructure/cached.reksadana";
+import { getCachedgetDataUsecase, getCachedkartuDataUsecase, getCachedReksadanaAggregateUsecase } from "@/module/portfolio/infrastructure/cache/cached.reksadana";
 
 export class ReksadanaController extends BaseController {
     private _usecase: GetDataListReksadanaUsecase

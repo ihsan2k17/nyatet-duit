@@ -1,10 +1,7 @@
+import { MenuApiResponse } from "@/shared/types/apiresponse"
 import axios, { AxiosInstance } from "axios"
 
-export interface MenuApiResponse<T> {
-  success: boolean
-  data?: T
-  message?: string
-}
+
 export interface ReksadanaItem {
     id: string,
     jenis: string,
@@ -82,23 +79,4 @@ export class ReksadanaClient {
       message: "Terjadi kesalahan yang tidak diketahui",
     }
   }
-}
-export async function FetchReksadanaList():Promise<MenuApiResponse<ReksadanaItem>> {
-    try {
-        const res = await axios.get("/api/portfolio/reksadana/list",{
-            withCredentials:true
-        })
-        return res.data
-    } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-            return {
-                success:false,
-                message: error.response?.data?.message || "Terjadi kesalahan saat Register"
-            }
-        }
-        return {
-            success:false,
-            message: "Terjadi Kesalahan yang tidak di ketahui"
-        }
-    }
 }

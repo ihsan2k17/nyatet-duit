@@ -3,6 +3,8 @@ import { Label } from '@radix-ui/react-label'
 import SectionCardAgg from './section.cardagg'
 import SectionCardPortfolio from './section.cardportfolio'
 import { Button } from '@/shared/ui/components/button/button'
+import { ChartAreaInteractive } from './section.charts'
+
 
 interface props {
     activeTab: string
@@ -31,6 +33,9 @@ const TabReksadana = ({activeTab}:props) => {
                 </div>
                 <div className='flex flex-col gap-4 py-4 md:gap-6 md:py-6'>
                     <SectionCardPortfolio />
+                </div>
+                <div className='flex flex-col gap-4 py-4 md:gap-6 md:py-6'>
+                    <ChartAreaInteractive />
                 </div>
             </div>
         </div>
