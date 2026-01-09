@@ -8,8 +8,11 @@ import { ChartAreaInteractive } from './section.charts'
 
 interface props {
     activeTab: string
+    name?: string|null,
+    username?: string|null
 }
-const TabReksadana = ({activeTab}:props) => {
+const TabReksadana = ({activeTab, name, username}:props) => {
+    
     return (
         <div className={`
             flex flex-1 flex-col ${activeTab === 'reksadana' ? 'translate-x-0' : '-translate-x-full'}
@@ -17,7 +20,7 @@ const TabReksadana = ({activeTab}:props) => {
             <div className=' flex flex-row justify-between items-center '>
                 <div className='flex flex-1 flex-col'>
                     <div className={`text-xl font-bold pl-1 text-button-primary`}>
-                        <h1>Nilai Portfolio Yang Lu Punya</h1>
+                        <h1>This Your Portfolio {name}</h1>
                     </div>
                     <div>
                         <Label htmlFor="label description" className='font-normal pl-1 text-button-primary'>
@@ -34,8 +37,8 @@ const TabReksadana = ({activeTab}:props) => {
                 <div className='flex flex-col gap-4 py-4 md:gap-6 md:py-6'>
                     <SectionCardPortfolio />
                 </div>
-                <div className='flex flex-col gap-4 py-4 md:gap-6 md:py-6'>
-                    <ChartAreaInteractive />
+                <div className='flex flex-col gap-4 py-4 md:gap-6 md:py-6 min-h-80'>
+                    <ChartAreaInteractive name={name} username={username}/>
                 </div>
             </div>
         </div>

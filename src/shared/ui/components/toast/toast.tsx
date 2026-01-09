@@ -6,7 +6,7 @@ import { FiXCircle } from "react-icons/fi";
 type ToastType = 'success' | 'error' | 'info'
 
 interface Toast {
-  id: number
+  id: string
   message: string
   type: ToastType
 }
@@ -21,7 +21,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([])
 
   const showToast = (type: ToastType, message: string) => {
-    const id = Date.now()
+    const id = crypto.randomUUID()//Date.now()
     setToasts(prev => [...prev, { id, type, message }])
 
     setTimeout(() => {

@@ -51,22 +51,49 @@ function ChartContainer({
 }) {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`
+  const ref = React.useRef<HTMLDivElement>(null)
+  const [ready, setReady] = React.useState(false)
+  React.useEffect(() => {
+    if (!ref.current) return
 
+    const observer = new ResizeObserver((entries) => {
+      const { width, height } = entries[0].contentRect
+      if (width > 0 && height > 0) {
+        setReady(true)
+      }
+    })
+
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
   return (
     <ChartContext.Provider value={{ config }}>
       <div
+        ref={ref}
         data-slot="chart"
         data-chart={chartId}
         className={cn(
-          "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border flex aspect-video justify-center text-xs [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
+          "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground", 
+          "[&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50", 
+          "[&_.recharts-curve.recharts-tooltip-cursor]:stroke-border",
+          "[&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border",
+          "[&_.recharts-radial-bar-background-sector]:fill-muted",
+          "[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted",
+          "[&_.recharts-reference-line_[stroke='#ccc']]:stroke-border", 
+          "relative w-full aspect-video flex justify-center text-xs",
+          "[&_.recharts-dot[stroke='#fff']]:stroke-transparent", 
+          "[&_.recharts-layer]:outline-hidden [&_.recharts-sector]:outline-hidden",
+          "[&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
           className
         )}
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>
-          {children}
-        </RechartsPrimitive.ResponsiveContainer>
+        {ready && (
+          <RechartsPrimitive.ResponsiveContainer minHeight={10} minWidth={10} height={"100%"} width={"100%"}>
+            {children}
+          </RechartsPrimitive.ResponsiveContainer>
+        )}
       </div>
     </ChartContext.Provider>
   )
@@ -182,7 +209,8 @@ function ChartTooltipContent({
   return (
     <div
       className={cn(
-        "border-border/50 bg-primary grid min-w-32 items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
+        "border-border/50 bg-sidebar-foreground grid min-w-32 items-start gap-1.5 rounded-lg",
+        " border px-2.5 py-1.5 text-xs shadow-xl",
         className
       )}
     >
@@ -213,7 +241,7 @@ function ChartTooltipContent({
                       !hideIndicator && (
                         <div
                           className={cn(
-                            "shrink-0 rounded-xs border-(--color-border) bg-(--color-bg)",
+                            "shrink-0 rounded-xs border-(--color-border) bg-(--color-button-primary)",
                             {
                               "h-2.5 w-2.5": indicator === "dot",
                               "w-1": indicator === "line",
@@ -224,7 +252,7 @@ function ChartTooltipContent({
                           )}
                           style={
                             {
-                              "--color-bg": indicatorColor,
+                              "--color-button-primary": indicatorColor,
                               "--color-border": indicatorColor,
                             } as React.CSSProperties
                           }
@@ -239,12 +267,12 @@ function ChartTooltipContent({
                     >
                       <div className="grid gap-1.5">
                         {nestLabel ? tooltipLabel : null}
-                        <span className="text-text-muted">
+                        <span className="text-text-primary">
                           {itemConfig?.label || item.name}
                         </span>
                       </div>
                       {item.value && (
-                        <span className="text-foreground font-mono font-medium tabular-nums">
+                        <span className="ml-2 text-text-secondary font-mono font-medium tabular-nums">
                           {item.value.toLocaleString()}
                         </span>
                       )}

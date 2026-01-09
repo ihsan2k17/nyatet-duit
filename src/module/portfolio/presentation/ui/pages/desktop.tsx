@@ -3,9 +3,15 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from 'framer-motion'
 import TabReksadana from "@/module/portfolio/presentation/ui/components/tab.reksadana"
-const PortfolioDesktop = () => {
+import { FaChartBar, FaLeaf } from "react-icons/fa6"
+interface sessionProps {
+    name?: string|null,
+    username?: string|null
+}
+const PortfolioDesktop = ({name, username}:sessionProps) => {
     const [activeTab, setActiveTab] = useState("reksadana")
     const [direction, setDirection ] = useState(1)
+
     const variants = {
         enter: (direction: number) => ({
             x: direction > 0 ? 100 : -100,
@@ -20,29 +26,30 @@ const PortfolioDesktop = () => {
             opacity: 0,
         }),
     }
+
     return (
         <div className="flex flex-1 flex-col">
             <div className={`flex flex-col bg-white p-2`}>
-                <div className={`flex-row `}>
+                <div className={`flex flex-row w-[20%] `}>
                     <button 
                         onClick={() => {
                             setDirection(-1)
                             setActiveTab("reksadana")}}
-                        className={`flex-1 p-2 text-center cursor-pointer rounded
+                        className={`flex items-center flex-1 p-2 text-center cursor-pointer rounded
                             ${activeTab === "reksadana" ? 
                                 "border-2 bg-button-primary text-white font-bold rounded":
                                 "text-button-primary font-bold"}`}>
-                        Reksadana
+                            <FaLeaf className="mr-5 size-4"/> Reksadana
                     </button>
                     <button
                         onClick={() => {
                             setDirection(1)
                             setActiveTab("saham")}}
-                        className={`flex-1 p-2 px-8 text-center cursor-pointer rounded
+                        className={`flex items-center flex-1 p-2 px-4 text-center cursor-pointer rounded
                             ${activeTab === "saham" ? 
                                 "border-2 bg-button-primary text-white font-bold rounded":
                                 "text-button-primary font-bold"}`}>
-                        Saham
+                            <FaChartBar className="mr-5 size-4"/>Saham 
                     </button>
                 </div>
                 <AnimatePresence mode='wait' custom={direction}>
@@ -56,7 +63,7 @@ const PortfolioDesktop = () => {
                             animate="center"
                             exit="exit"
                             transition={{duration:0.25, ease: 'easeInOut'}}>
-                                <TabReksadana activeTab={activeTab}/>
+                                <TabReksadana activeTab={activeTab} name={name} username={username}/>
                             </motion.div>
                         )}
                         {activeTab === 'saham' &&(

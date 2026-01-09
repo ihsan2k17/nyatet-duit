@@ -18,20 +18,13 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/shared/ui/components/chart/chart"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/ui/components/select/select"
 import { ChartsPortfolio, PortfolioClient } from "../../api/portfolio.client"
 import { DropdownMenu, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { Button } from "@/shared/ui/components/button/button"
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel } from "@/shared/ui/components/dropdown/dropdown"
 import { cn } from "@/libs/utils"
 
-export const description = "An interactive area chart"
+export const description = "Your Fund To Record a table Summary Data to Chart"
 
 function toMonthIndex(bulan: number, tahun: number) {
   return tahun * 12 + (bulan - 1)
@@ -58,12 +51,12 @@ const RANGE_MAP: Record<TimeRange, number | "all"> = {
 }
 
 const RANGE_LABEL: Record<TimeRange, string | "all"> = {
-  "1m": "1 Bulan",
-  "3m": "3 Bulan",
-  "6m": "6 Bulan",
-  "1y": "1 Tahun",
-  "2y": "2 Tahun",
-  "4y": "4 Tahun",
+  "1m": "1 Month",
+  "3m": "3 Month",
+  "6m": "6 Month",
+  "1y": "1 Year",
+  "2y": "2 Year",
+  "4y": "4 Year",
   all: "all",
 }
 
@@ -97,12 +90,15 @@ function buildChartConfig(keys: string[]): ChartConfig {
     return acc
   }, {} as ChartConfig)
 }
-
-export function ChartAreaInteractive() {
+interface sessionProps {
+  name?:string|null,
+  username?: string|null
+}
+export function ChartAreaInteractive({name}:sessionProps) {
   const [timeRange, setTimeRange] = React.useState<TimeRange>("6m")
   const [apiData, setApiData] = React.useState<ChartsPortfolio[]>([])
   const [chartConfig, setChartConfig] = React.useState<ChartConfig>({})
-
+  
   React.useEffect(() => {
     const api = new PortfolioClient()
 
@@ -141,9 +137,9 @@ export function ChartAreaInteractive() {
     <Card className="pt-0">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Area Chart - Interactive</CardTitle>
+          <CardTitle>When Your value Grows - {name} </CardTitle>
           <CardDescription>
-            Showing total visitors for the last 1 Months
+            Showing total visitors for the last {activefilter}
           </CardDescription>
         </div>
         <DropdownMenu>
@@ -175,30 +171,22 @@ export function ChartAreaInteractive() {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
+              {seriesKeys.map((key, idx) => {
+                const color = CHART_COLORS[idx % CHART_COLORS.length]
+                return (
+                  <linearGradient
+                    key={key}
+                    id={`gradient-${key}`}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor={color} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={color} stopOpacity={0.1} />
+                  </linearGradient>
+                )
+              })}
             </defs>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -233,6 +221,7 @@ export function ChartAreaInteractive() {
                 stroke={CHART_COLORS[idx % CHART_COLORS.length]}
                 fill={CHART_COLORS[idx % CHART_COLORS.length]}
                 fillOpacity={0.6}
+                dot
               />
             ))}
             <ChartLegend content={<ChartLegendContent />} />

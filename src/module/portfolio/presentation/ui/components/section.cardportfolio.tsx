@@ -41,7 +41,6 @@ const SectionCardPortfolio = () => {
             }
         }
         LoadData()
-        
     },[])
     return (
         <Carousel 
