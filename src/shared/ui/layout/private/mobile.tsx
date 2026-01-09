@@ -8,9 +8,11 @@ import { Button } from '../../components/button/button'
 import { FiSidebar } from 'react-icons/fi'
 
 interface props {
-    children: React.ReactNode
+    children: React.ReactNode,
+    name: string,
+    username:string,
 }
-const MobileLayout = ({children}:props) => {
+const MobileLayout = ({children, name, username}:props) => {
     const [menuTree, setMenuTree] = useState<MenuItem[]>([])
     const [openDrawer, setOpenDrawer] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -41,10 +43,11 @@ const MobileLayout = ({children}:props) => {
                         onClick={() => setOpenDrawer(true)}>
                         <FiSidebar />
                     </Button>
-                    <DrawerSubmenu 
-                        parent={foundParent}
-                        open={openDrawer}
-                        onClose={() => setOpenDrawer(false)}
+                        <DrawerSubmenu 
+                            parent={foundParent}
+                            open={openDrawer}
+                            onClose={() => setOpenDrawer(false)}
+                            user={{name:name, email:username, avatar:'/assets/image/avatar_lion.png'}}
                         />
                 </div>
                 <div className='flex-1'>
@@ -55,7 +58,7 @@ const MobileLayout = ({children}:props) => {
                     />
                 </div>
             </div>
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 z-0">{children}</main>
         </div>
   )
 }

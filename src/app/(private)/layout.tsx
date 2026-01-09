@@ -17,7 +17,7 @@ const Layout =async ({children,}: Readonly<{children: React.ReactNode;}>) => {
     return (
         <div>
             <div className="block md:hidden">
-                <MobileLayout>{children}</MobileLayout>
+                <MobileLayout name={name} username={username}>{children}</MobileLayout>
             </div>
 
             <div className="hidden md:block">

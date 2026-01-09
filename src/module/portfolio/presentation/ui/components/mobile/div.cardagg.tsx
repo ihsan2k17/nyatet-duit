@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ReksadanaAggItem, ReksadanaClient } from '../../../api/reksadana.client'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/components/card/card'
+import { Card, CardHeader, CardTitle } from '@/shared/ui/components/card/card'
 import { FiPackage } from 'react-icons/fi'
 import { FaLayerGroup } from 'react-icons/fa6'
 import { Separator } from '@/shared/ui/components/separator/separator'
@@ -26,7 +26,7 @@ const DivCardAgg = () => {
                 </Label>
                 Rp. {dataAgg?.sumPortfolio.toLocaleString("ed-ID")}
             </h2>
-            <div className={`flex flex-row gap-3 mt-4 justify-between`}>
+            <div className={`flex flex-row gap-3 mt-4 justify-between z-10`}>
                 <Card className={`flex flex-1 w-full p-1`}>
                     <CardHeader className='w-full'>
                         <CardTitle className='font-medium text-sm '>Your Product </CardTitle>
